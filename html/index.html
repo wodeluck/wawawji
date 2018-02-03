@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no,address=no" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<link rel="stylesheet" href="../css/zy_common.css" />
+		<link rel="stylesheet" href="../css/zy_base.css" />	
+		<link rel="stylesheet" type="text/css" href="../css/swiper-3.4.1.min.css" />
+		<link rel="stylesheet" href="../js/drop/dropload.css" />
+		<style type="text/css">
+			.swiper-pagination-bullet-active{
+				background: #86d8ff;
+			}
+		</style>
+	</head>
+	<body>
+	<div class="swiper-container">
+		<div class="swiper-wrapper" id="slide">
+			<div class="swiper-slide"><a href="#" class="inline-block"><img src="../img/bg1.png" alt="背景图" style="width:100%;height: 3.2rem;" /></a></div>
+			<div class="swiper-slide"><a href="#" class="inline-block"><img src="../img/bg1.png" alt="背景图" style="width:100%;height: 3.2rem;" /></a></div>
+			<div class="swiper-slide"><a href="#" class="inline-block"><img src="../img/bg1.png" alt="背景图" style="width:100%;height: 3.2rem;" /></a></div>
+		</div>
+			<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+			<!-- Add Arrows -->
+	</div>		
+	<div class="marqueeBox bg-86d8ff color-fff flex-center paddingTB-3 paddingLR-24 marginTop-20">
+		<div class="marginRight-20">晚8点送币</div>
+		<marquee behavior="scroll" direction="left" id="marqueeBox">
+			<p><img src="../img/img1.png" alt="" /><span class="marginLeft-20">波哥 抓中了!</span></p>
+			<p><img src="../img/img1.png" alt="" /><span class="marginLeft-20">波哥 抓中了!</span></p>
+			<p><img src="../img/img1.png" alt="" /><span class="marginLeft-20">波哥 抓中了!</span></p>
+			<p><img src="../img/img1.png" alt="" /><span class="marginLeft-20">波哥 抓中了!</span></p>
+		</marquee>
+	</div>
+	<div class="listBoxs paddingLR-24 paddingTB-3">
+		<ul>
+			<!--<li>
+				<div class="textsBox">
+					<p class="textsChild bg-ffafbd">新品上市</p>
+				</div>
+				<div>
+					<img src="../img/1.jpg" />
+					<p class="paddingLR-10 flex-center paddingTB-4"><span class="s_round bg-ff847d marginRight-10"></span><span class="color-ffafbd">游戏中</span></p>
+				</div>
+				<div class="paddingLR-10 paddingTB-3 border_top">
+					<p class="color-333 font-15 marginBottom-10">熊本熊公仔</p>
+					<p class="flex-center justify-between"><span class="color-ffcc00">30币/次</span><span class="color-999">排队 20</span></p>
+				</div>
+			</li>-->
+		</ul>
+	</div>
+	<div class="bg-86d8ff text-center paddingTB-3 color-fff fixed">Copyright © 2017 DLC. All Rights Reserved.</div>
+	<div class="mask"></div>
+	<section class="faHuoWin">
+		<div class="font-15 color-333 shouHuoText flex-all-center">
+			<p>准备到你抓娃娃了！</p>
+			<p class="marginTop-20 color-ffafbd" id="time">5s</p>
+		</div>
+		<div class="confirmBox color-fff font-15"><span class="bg-ccc close">取消</span><span class="bg-86d8ff confirms" id="starts">立即开始</span></div>
+	</section>
+	</div>
+	</body>
+</html>
+<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../js/tooltipbox.js"></script>
+<script type="text/javascript" src="../js/dlc.js"></script>
+<script type="text/javascript" src="../js/swiper-3.4.1.min.js"></script>   
+<script src="../js/drop/dropload.min.js"></script>
+<!--引入webim sdk-->
+<script type="text/javascript" src="../js/WebTim_V1.7/sdk/webim.js?v=1"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/sdk/json2.js"></script>
+<!--webim demo js-->
+<script type="text/javascript" src="../js/WebTim_V1.7/js/demo_base.js"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/js/demo_group_notice.js"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/base.js"></script>
+
+<script>	
+		//处理腾讯消息回调
+		function WebTimMsgNotify(msg){
+			console.log('############');
+			console.log(msg);
+			try{			
+				var msg = msg.elems[0].content.text;
+				try{
+					//处理特殊通知消息
+					if(msg.indexOf('{') == 0){
+						msg = JSON.parse(escape2Html(msg));
+						console.log(msg);
+						switch(msg.type){
+							case 1://特定消息
+								break;
+							case 10://游戏结果//判断user_id=0只刷新排队//user_id>0才是结果
+								break;
+							case 11://预约排队通知
+								break;
+							case 12://滚动公告推送
+								get_new_notice();
+								break;
+							case 13://
+								break;
+							case 14://
+								break;
+							case 15: //房间状态
+								break;
+							case 16://
+								break;
+							case 17://
+								break;
+							case 18://房间排队人数
+								break;
+						}
+					}
+				}catch(e){
+					//处理聊天消息	
+				}
+			}catch(e){
+			}
+		}
+
+		// 页数
+		 var page = 0;
+		// 每页展示10个
+		 var size = 10;
+		dlctipbox.loading('请稍后...');
+		if(getUrlParam('code')){
+			if(!localStorage.getItem('token')){
+				getLogin();//获取token
+			}else{
+				sdkLogin(localStorage.getItem('tim_uid'),localStorage.getItem('tim_sig'));
+				getRoomList();//获取列表
+			}
+		}else{
+		    location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc72b57ad73571b5c&redirect_uri=http://wawa.app.xiaozhuschool.com/h5/html/index.html&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+		}   
+		function getLogin(){
+				dlc_request('api/public/?service=Login.weixinLogin',{code:getUrlParam('code')},function(data){
+//					console.log(data);
+					dlctipbox.clear();
+					if(data.code=='1'){
+						localStorage.setItem('token',data.data.token);
+						localStorage.setItem('id',data.data.id);
+						localStorage.setItem('tim_uid',data.data.tim_uid);
+						localStorage.setItem('tim_sig',data.data.tim_sig);
+						sdkLogin(data.data.tim_uid, data.data.tim_sig);
+						getRoomList();//获取列表
+					}else if(data.code=='101'){
+						dlctipbox.show('登录失败，请重新登录！');
+						setTimeout(function(){
+							WeixinJSBridge.call('closeWindow');
+						},1500);
+					}else{
+						dlctipbox.show(data.msg);
+					}
+				})			
+		}
+		//滚动公告推送
+		function get_new_notice(){
+			dlc_request('api/notice/api',{api_name:"get_new_notice",token:localStorage.getItem('token')},function(data){
+				console.log(data);
+				var str='';
+				if(data.code=='1'){
+					for(var i in data.data){
+						str+=(data.data[i].type=='1')?('<p><img src="'+data.data[i].avatar_thumb+'" alt="" /><span class="marginLeft-20">'+data.data[i].content+'</span></p>'):('<p><img src="'+data.data[i].avatar_thumb+'" alt="" /><span class="marginLeft-20">'+data.data[i].content+'</span></p><p><img src="'+data.data[i].avatar_thumb2+'" alt="" /><span class="marginLeft-20">'+data.data[i].user2+'</span></p>');
+					}
+					if(str){
+						$('#marqueeBox').html(str);
+					}
+				}
+			})
+		}
+ 
+ $(function(){
+ 	$.ajax({
+ 		type:"POST",
+ 		url:dlcUrl()+"api/public/?service=Home.getHot",
+ 		dataType:"json",
+ 		success:function(data){
+// 			console.log(data);
+ 			var str='';
+ 			if(data.code=='1'){
+ 				for(var i in data.data.slide){
+ 					str+='<div class="swiper-slide"><a href="#" class="inline-block"><img src="'+data.data.slide[i].slide_pic+'" alt="背景图" style="width:100%;height: 3.2rem;" /></a></div>'
+ 				}
+ 				if(str){
+ 					$('#slide').html(str);
+			      	var swiper = new Swiper('.swiper-container', {
+			 		pagination: '.swiper-pagination',
+			 		slidesPerView: 1,
+			 		paginationClickable: true,
+			 		spaceBetween: 30,
+			 		autoplay: 3000,
+			 		autoplayDisableOnInteraction: false, //falase,用户操作后，定时滑动
+			 		loop: true
+			 	});
+ 
+ 				}
+ 			}
+ 		},
+ 		error:function(err){
+ 			dlctipbox.show('网络出错，请重新刷新！');
+ 		}
+ 	});
+ 	
+ 	
+ 	
+ })
+ 
+ 	
+
+
+
+ // dropload
+function getRoomList(){
+	dlctipbox.clear();
+	 $('.listBoxs').dropload({
+	     scrollArea : window,
+	     domUp : {
+	         domClass   : 'dropload-up',
+	         domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+	         domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+	         domLoad    : '<div class="dropload-load"><span class="loadings"></span>加载中...</div>'
+	     },
+	     domDown : {
+	         domClass   : 'dropload-down',
+	         domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+	         domLoad    : '<div class="dropload-load"><span class="loadings"></span>加载中...</div>',
+	         domNoData  : '<div class="dropload-noData">还不够抓吗？</div>'
+	     },
+	     loadUpFn : function(me){
+	         $.ajax({
+		 		type:"POST",
+		 		url:dlcUrl()+"api/mywawa/api",
+		 		data:{api_name:"index",token:localStorage.getItem('token'),page:1,size:size},
+		 		dataType:"json",
+	             success: function(data){
+	                 var result = '';
+	                 for(var i = 0; i < data.data.length; i++){
+	                       	result+='<li room_id='+data.data[i].room_id+'>'+
+								'<div class="textsBox">'+
+									'<p class="textsChild bg-ffafbd">'+data.data[i].label+'</p>'+
+								'</div>'+
+								'<div>'+
+									'<img src="'+data.data[i].gifticon+'" />'+
+									'<p class="paddingLR-10 flex-center paddingTB-4"><span class="s_round '+(data.data[i].status=='0'?"bg-b5ed49":data.data[i].status=='1'?"bg-ff9900":data.data[i].status=='2'?"bg-adadac":data.data[i].status=='3'?"bg-ff847d":"bg-adadac")+' marginRight-10"></span><span class="'+(data.data[i].status=='0'?"color-b5ed49":data.data[i].status=='1'?"color-ffcc00":data.data[i].status=='2'?"color-adadac":data.data[i].status=='3'?"color-ffafbd":"color-adadac")+'">'+(data.data[i].status=='0'?"空闲中":data.data[i].status=='1'?"补货中":data.data[i].status=='2'?"维护中":data.data[i].status=='3'?"游戏中":"离线")+'</span></p>'+
+								'</div>'+
+								'<div class="paddingLR-10 paddingTB-3 border_top">'+
+									'<p class="color-333 font-15 marginBottom-10">'+data.data[i].room_name+'</p>'+
+									'<p class="flex-center justify-between"><span class="color-ffcc00">'+data.data[i].spendcoin+'币/次</span><span class="color-999">排队 '+data.data[i].wait_nums+'</span></p>'+
+								'</div>'+
+							'</li>'               	
+	                 }
+	                 // 为了测试，延迟1秒加载
+	                 setTimeout(function(){
+	                     $('.listBoxs ul').html(result);
+	                     // 每次数据加载完，必须重置
+	                     me.resetload();
+	                     // 重置页数，重新获取loadDownFn的数据
+	                     page = 1;
+	                     // 解锁loadDownFn里锁定的情况
+	                     me.unlock();
+	                     me.noData(false);
+	                 },1000);
+	             },
+	         });
+	     },
+	     loadDownFn : function(me){
+	         page++;
+	         // 拼接HTML
+	         var result = '';
+	         $.ajax({
+		 		type:"POST",
+		 		url:dlcUrl()+"api/mywawa/api",
+		 		data:{api_name:"index",token:localStorage.getItem('token'),page:page,size:size},
+		 		dataType:"json",
+	             success: function(data){
+//	             	console.log(data);
+	                 var arrLen = data.data.length;
+	                 if(arrLen > 0){
+	                    for(var i=0; i<arrLen; i++){
+	                     	result+='<li room_id='+data.data[i].room_id+'>'+
+								'<div class="textsBox">'+
+									'<p class="textsChild bg-ffafbd">'+data.data[i].label+'</p>'+
+								'</div>'+
+								'<div>'+
+									'<img src="'+data.data[i].gifticon+'" />'+
+									'<p class="paddingLR-10 flex-center paddingTB-4"><span class="s_round '+(data.data[i].status=='0'?"bg-b5ed49":data.data[i].status=='1'?"bg-ff9900":data.data[i].status=='2'?"bg-adadac":data.data[i].status=='3'?"bg-ff847d":"bg-adadac")+' marginRight-10"></span><span class="'+(data.data[i].status=='0'?"color-b5ed49":data.data[i].status=='1'?"color-ffcc00":data.data[i].status=='2'?"color-adadac":data.data[i].status=='3'?"color-ffafbd":"color-adadac")+'">'+(data.data[i].status=='0'?"空闲中":data.data[i].status=='1'?"补货中":data.data[i].status=='2'?"维护中":data.data[i].status=='3'?"游戏中":"离线")+'</span></p>'+
+								'</div>'+
+								'<div class="paddingLR-10 paddingTB-3 border_top">'+
+									'<p class="color-333 font-15 marginBottom-10">'+data.data[i].room_name+'</p>'+
+									'<p class="flex-center justify-between"><span class="color-ffcc00">'+data.data[i].spendcoin+'币/次</span><span class="color-999">排队 '+data.data[i].wait_nums+'</span></p>'+
+								'</div>'+
+							'</li>'
+						}	
+	                 // 如果没有数据
+	                 }else{
+	                     // 锁定
+	                     me.lock();
+	                     // 无数据
+	                     me.noData();
+	                 }
+	                 // 为了测试，延迟1秒加载
+	                 setTimeout(function(){
+	                     // 插入数据到页面，放到最后面
+	                     $('.listBoxs ul').append(result);
+	                     // 每次数据插入，必须重置
+	                     me.resetload();
+	                 },1000);
+	             },
+	         });
+	     },
+	     threshold : 50
+	 });
+   }
+
+		var i=5,times,room_id;  
+		$('.listBoxs').on('click','li',function(){
+			room_id=$(this).attr('room_id');
+			$('.mask,.faHuoWin').fadeIn(300);
+			$('#time').text(i+'s');
+			times=setInterval(function(){
+				i--;
+				$('#time').text(i+'s');
+				if(i==0){
+					i=5;
+					$('.mask,.faHuoWin').fadeOut(300);
+					clearInterval(times);
+					location.href='./room.html?room_id='+room_id;
+				}
+			},1000)
+		})
+		
+		$('.close,.mask').click(function(){ 
+			clearInterval(times);
+			i=5;
+			$('.mask,.faHuoWin').fadeOut(300);
+		})
+		
+		$('#starts').click(function(){
+			$('.mask,.faHuoWin').fadeOut(300);
+			location.href='./room.html?room_id='+room_id;
+		})
+
+</script>

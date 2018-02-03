@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>充值</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,address=no"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" href="../css/main.css"/>
+    <script type="text/javascript" src="../js/adaptive.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].init();
+    </script>
+    <style>
+        .package_msg{
+            border: 1px solid #e5e5e5;
+            width: 2.2rem;
+            height: .9rem;
+            box-sizing: border-box;
+        }
+        .package_img{
+            width: 1.1rem;
+            height: 1.1rem;
+            border-radius: .1rem;
+            overflow: hidden;
+        }
+        .package_img img{
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+       .presenter .package_msg{
+            width: 100%;
+            height: 1.55rem;
+            padding: .1rem;
+        }
+        .package:checked + .package_msg{
+            background: #86d8ff;
+            border-color: #86d8ff;
+        }
+        .package:checked + .package_msg p{
+            color: #fff;
+        }
+        .presenter .package_msg .left{
+            width: 2rem;
+        }
+        .presenter .package_msg .right{
+            background-color: #f5f5f5;
+            height: 100%;
+        }
+        .presenter .package_msg .right .send{width: 1rem;}
+        .presenter .package_item{
+            width: 100%;
+            height: 1.55rem;
+        }
+    </style>
+</head>
+<body>
+    <article class="bigBox">
+        <section class="container">
+            <div class="tac">
+                <p class="font15 col9 mt40">我的娃娃币</p>
+                <p class="color2 font21 mt30" id="coin"></p>
+                <p class="col3 font14 mt50" id="firstgive"></p>
+            </div>
+            <div class="packages clearfix plr30 mt100">
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex-column flex_aj">
+                        <p class="fw font14 col3">100币</p>
+                        <p class="font13 col9">￥10.00</p>
+                    </div>
+                </label>
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex-column flex_aj">
+                        <p class="fw font14 col3">300币</p>
+                        <p class="font13 col9">￥30.00</p>
+                    </div>
+                </label>
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex-column flex_aj">
+                        <p class="fw font14 col3">100币</p>
+                        <p class="font13 col9">￥10.00</p>
+                    </div>
+                </label>
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex-column flex_aj">
+                        <p class="fw font14 col3">100币</p>
+                        <p class="font13 col9">￥10.00</p>
+                    </div>
+                </label>
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex-column flex_aj">
+                        <p class="fw font14 col3">100币</p>
+                        <p class="font13 col9">￥10.00</p>
+                    </div>
+                </label>
+            </div>
+            <div class="packages plr30 presenter">
+                <label class="package_item fl mr10 mb20">
+                    <input type="radio" hidden class="package" name="package">
+                    <div class="package_msg border-r1 flex_a">
+                        <div class="left tac">
+                            <p class="fw font14 col3">100币</p>
+                            <p class="font13 col9">￥10.00</p>
+                        </div>
+                        <div class="flex1 flex_a right border-r1">
+                            <div class="send flex_aj color2 font13">立即送</div>
+                            <div class="package_img">
+                                <img src="../img/face.png">
+                            </div>
+                            <div class="font14 col3 ml20 flex1">爆款包包一个</div>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </section>
+        <footer>
+            <button class="btn_tap bgc1 font16 colw w100 lh90" id="submit">充值</button>
+        </footer>
+    </article>
+</body>
+</html>
+<script src="../js/jquery-1.8.3.min.js"></script>
+<script src="../js/dlc.js"></script>
+<script>
+    $(function(){
+        dlc_request('index.php?g=Api&m=Record&a=api',{api_name: 'gold',token: localStorage.getItem('token')},function(res){
+            console.log(res);
+            if(res.code == 1){
+                var res = res.data;
+                $('#coin').html(res.coin+'<cite class="font14">币</cite>');
+                $('#firstgive').html('首冲<cite class="color1">'+res.firstgive.money+'</cite>元以上，额外得<cite class="color1">'+res.firstgive.firstgive+'</cite>娃娃币');
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+/************作者:陈之勇*********************/
+.color-86d8ff{/* 浅蓝*/
+	color: #86d8ff;
+}
+.bg-86d8ff{
+	background: #86d8ff;
+}
+
+.bg-ff847d{/* 朱红色 */
+	background: #ff847d;
+}
+.bg-b5ed49{/*绿色 */
+	background: #b5ed49;
+}
+.bg-ff9900{/*深黄*/
+	background: #ff9900;
+}
+.bg-adadac{
+	background: #adadac;
+}
+.bg-ea68a2{/*紫色*/
+	background: #ea68a2;
+}
+.bg-ffafbd{/* 粉红色 */
+	background: #ffafbd;
+}
+.bg-ccc{
+	background: #ccc;
+}
+.color-ff847d{
+	color: #ff847d;
+}
+.color-b5ed49{
+	color: #b5ed49;
+}
+.color-ff9900{
+	color: #ff9900;
+}
+.color-adadac{
+	color: #adadac;
+}
+.color-ffcc00{/**浅黄**/
+	color: #ffcc00;
+}
+.color-ffafbd{
+	color: #ffafbd;
+}
+
+.mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.5);
+	z-index: 99;
+	display: none;
+}
+.confirm{
+    display: block;
+    width: 83%;
+    margin: 0 auto;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    border-radius: 0.44rem;
+    background: #6b7ade;
+    color: #fff;
+    border: none;
+    font-size: 0.32rem;	
+    text-align: center;
+}
+.confirm:active{
+	background: #ccc;
+}
+.back{
+	width: 7%;
+	padding: 2% 3%;
+}
+.lineH{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	flex: 1;
+}
+
+.L-block{
+	background: #fff;
+}
+.L-block-name{
+	display: inline-block;	
+    width: 1.55rem;
+}
+.L-block-input{
+    border: none;
+    line-height: 1rem;
+    height: 1rem;	
+}
+.L-block-input::-webkit-input-placeholder{
+	font-size: #999;
+}
+.border-bottom{
+	border-bottom: 1px solid #e5e5e5;
+}
+.allBtn{
+	height: 1rem;
+	line-height: 1rem;
+	text-align: center;
+}
+.messageBox{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+    z-index: 0;
+}
+/************************index*****************************/
+.marqueeBox{
+	background-image: url(../img/bg2.png);
+	background-repeat: no-repeat;
+	background-position: center 95%;
+	background-size: 90%; 
+}
+.marqueeBox>marquee{
+	flex: 1;	
+    display: inline-block;
+    overflow-x: scroll;
+    white-space: nowrap;
+}.marqueeBox>marquee p{
+	display: inline-block;
+}
+.marqueeBox>marquee p + p{
+	margin-left: 0.2rem;
+}
+.marqueeBox img{
+	width: 0.6rem;
+	height: 0.6rem;
+}
+.listBoxs{
+	padding-bottom: 18%;
+}
+.listBoxs ul li{
+	width: 3.4rem;
+	display: inline-block;
+	background: #fff;
+	margin-bottom: 0.2rem;
+	/*border: 0.01rem solid #e5e5e5;*/
+}
+.listBoxs ul li:nth-child(2n+1){
+	margin-right: 0.2rem;
+}
+.listBoxs ul li img{
+	width: 100%;
+	height: 3rem;
+}
+.s_round{
+    width: 0.3rem;
+    height: 0.3rem;
+    display: inline-block;
+    border-radius: 50%;	
+}
+.textsBox{
+	padding: 8% 0;
+}
+.textsChild{
+    width: 1.5rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    text-align: center;
+    border-radius: 0 0.44rem 0.44rem 0;
+    color: #fff;
+}
+
+.faHuoWin{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 6rem;
+	margin-left: -3rem;
+    margin-top: -1.7rem;
+	z-index: 100;
+	background: #fff;
+	border-radius: 5px;
+	display: none;
+}
+.confirmBox{
+	height: 1rem;
+	display: flex;
+	line-height: 1rem;
+}
+.confirmBox span{
+	flex: 1;
+	text-align: center;
+}
+.confirmBox span:first-child{
+    border-bottom-left-radius: 5px;	
+}
+.confirmBox span:last-child{
+    border-bottom-right-radius: 5px;	
+}
+.shouHuoText{
+	flex-direction: column;
+    height: 2.4rem;
+    text-align: center;	
+}

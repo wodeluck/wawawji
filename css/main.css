@@ -1,0 +1,201 @@
+.room .wrap{
+    background: linear-gradient(#7ecef4, #fff);
+}
+.room .audioWrap{
+    border-radius: .1rem;
+    overflow: hidden;
+    height: 7rem;
+}
+.room #video_canvas{
+    width: 100%;
+    height: 7rem;
+}
+.room .face_info{
+    top: .1rem;
+    left: .1rem;
+    width: 2.6rem;
+    height: .86rem;
+    background: rgba(0,0,0,.5);
+    border-radius: .5rem;
+    overflow: hidden;
+    padding-left: 2px;
+}
+.room .face_info .face{
+    width: .8rem;
+    height: .8rem;
+    border-radius: 50%;
+}
+.room .room_face{
+    right: 0;
+    top: 0;
+    background-color: #fefdfd;
+    padding: .1rem 0;
+    border-radius: 0 .1rem 0 .1rem;
+}
+.room .face_box .face{
+    width: .6rem;
+    height: .6rem;
+    border-radius: 50%;
+    margin-left: .1rem;
+}
+.room .tab_bar .tab_item.active{
+    color: #86d8ff;
+}
+.room .record li a{
+    height: 1rem;
+    border-bottom: 1px dashed #e5e5e5;
+}
+.room .record .face{
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+}
+.btn_bar .direction{
+    width: 1.16rem;
+    height: 1.2rem;
+    background: url("../img/btn_left.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.btn_bar .btn_left{
+    background-image: url("../img/btn_left.png");
+}
+.btn_bar .btn_up{
+    background-image: url("../img/btn_up.png");
+}
+.btn_bar .btn_down{
+    background-image: url("../img/btn_down.png");
+}
+.btn_bar .btn_right{
+    background-image: url("../img/btn_right.png");
+}
+.btn_bar .btn_grab{
+    background-image: url("../img/btn_go.png");
+}
+.btn_bar .btn_rejection_nor{
+    width: 1.16rem;
+    height: 1.2rem;
+    background: url("../img/btn_rejection_nor.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.room .start_box{
+    height: 2.08rem;
+}
+.room .btn_comment_nor{
+    width: 1.16rem;
+    height: 1.17rem;
+    background: url("../img/btn_comment_nor.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.room .btn_begin_nor{
+    width: 3.4rem;
+    height: 1.17rem;
+}
+.room .btn_begin_nor .game_begin{
+    width: 3.4rem;
+    height: 1.17rem;
+    background: url("../img/game_begin.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.room .btn_begin_nor .game_appoint{
+    width: 3.4rem;
+    height: 1.17rem;
+    background: url("../img/btn_begin_nor.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.room .btn_Recharge_nor{
+    width: 1.29rem;
+    height: .54rem;
+    background: url("../img/btn_Recharge_nor.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.catch_res{
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.close{
+    width: .36rem;
+    height: .36rem;
+    background: url("../img/icon_close_alt.png") no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    right: .24rem;
+    top: .24rem;
+}
+.bg_yes{
+    margin-top: 2.1rem;
+}
+.bg_yes img{
+    width: 5.85rem;
+}
+.bg_fail img{
+    width: 6.9rem;
+}
+.opera .opera_item{
+    width: 2.8rem;
+    height: 1.04rem;
+    background: url("../img/share_btn.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.opera .opera_item.again{
+    background-image: url("../img/btn_again.png");
+}
+.opera{
+    padding: 0 .6rem;
+}
+.catch_fail .opera_item.again{
+    width:2.78rem;
+    height: .9rem;
+    background-image: url("../img/btn_again1.png");
+}
+.record_wrap{
+    border: 1px solid #87d8ff;
+    border-radius: 0.1rem;
+    height: 10rem;
+}
+.dolls_img{
+    width: 100%;
+}
+.msg_box{
+    bottom:0;
+    left: 0;
+    line-height: .5rem;
+}
+#video-discuss-form{
+    position: fixed;
+    bottom:0;
+    left: 0;
+    z-index: 1;
+}
+.video-discuss-input{
+    height: .64rem;
+    line-height: .64rem;
+    border: 1px solid #e5e5e5;
+    border-radius: .4rem;
+}
+.video-discuss-button{
+    width: 1.54rem;
+    height: .64rem;
+    line-height: .64rem;
+    border-radius: .4rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

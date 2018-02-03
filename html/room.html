@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>公版娃娃机</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,address=no"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" href="../css/main.css"/>
+    <script type="text/javascript" src="../js/adaptive.js"></script>
+    <script>
+        window['adaptive'].desinWidth = 750;
+        window['adaptive'].baseFont = 28;
+        window['adaptive'].init();
+    </script>
+</head>
+<body class="room bw">
+<div class="plr10 wrap">
+    <div class="audioWrap pos_r">
+        <canvas id="video_canvas"></canvas>
+        <div class="room_face flex_a pos_a"></div>
+        <ul class="pos_a msg_box plr24"></ul>
+    </div>
+</div>
+<section class="start_wrap">
+    <div class="flex-sb plr40 start_box">
+        <div class="btn_comment_nor" id="get_send"></div>
+        <div class="btn_begin_nor">
+            <div class="game_begin dpn" id="game_begin"></div>
+            <div class="dpn" id="game_appoint">
+                <div class="game_appoint colw tac flex_aj flex-column">
+                    <p class="font19">预约抓娃娃</p>
+                    <p class="font14">前面<cite id="front_wait_num"></cite>人</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="font14">
+                <p class="font13" id="needcoin"></p>
+                <p>余额:<cite class="fw" id="coin"></cite></p>
+            </div>
+            <div class="btn_Recharge_nor"></div>
+        </div>
+    </div>
+</section>
+<section class="btn_bar dpn">
+    <div class="flex_aj">
+        <div>
+            <button value="" class="btn_rejection_nor"></button>
+        </div>
+        <div class="ml20">
+            <button onclick="crawlCtrl(this)" value="left" class="direction btn_left"></button>
+        </div>
+        <div>
+            <div>
+                <button onclick="crawlCtrl(this)" value="up" class="direction btn_up"></button>
+            </div>
+            <div class="mt20">
+                <button onclick="crawlCtrl(this)" value="down" class="direction btn_down"></button>
+            </div>
+        </div>
+        <div class="mr30">
+            <button onclick="crawlCtrl(this)" value="right" class="direction btn_right"></button>
+        </div>
+        <div>
+            <button onclick="crawlCtrl(this)" value="grab" class="direction btn_grab"></button>
+        </div>
+    </div>
+</section>
+<section class="plr10" style="padding-bottom: 1.3rem;">
+    <div class="plr20 record_wrap">
+        <div class="tab_bar flex_a lh90 font15 col9 bdb tac">
+            <div class="tab_item flex1 active">娃娃详情</div>
+            <div class="tab_item flex1">最近抓中记录</div>
+        </div>
+        <div class="tab_con">
+            <ul class="tab_con_child dolls_details"></ul>
+            <ul class="tab_con_child record" style="display: none;">
+                <!--<li>-->
+                    <!--<a href="" class="flex-sb">-->
+                        <!--<div class="flex_a">-->
+                            <!--<div>-->
+                                <!--<img src="../img/face.png" class="face">-->
+                            <!--</div>-->
+                            <!--<span class="ml20">kate</span>-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<span class="mr10">46秒前</span>-->
+                            <!--<img src="../img/ico_play.png" style="width: .4rem;">-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="catch_res catch_success colw dpn">
+    <div class="close"></div>
+    <div class="bg_yes tac">
+        <img src="../img/bg_yes.png">
+    </div>
+    <div class="tac mt70">
+        <img src="../img/qr_code.png" style="width: 1.5rem;height: 1.5rem">
+    </div>
+    <p class="font14 tac mt24">邀请好友送娃娃币</p>
+    <div class="opera flex-sb mt40">
+        <div class="opera_item share"></div>
+        <div class="opera_item again"></div>
+    </div>
+    <div class="tip tac font14 cow mt40">您可到“我的娃娃”页面查看您抓到的娃娃！</div>
+</section>
+<section class="catch_res catch_fail colw dpn">
+    <div class="close"></div>
+    <div class="bg_fail tac">
+        <img src="../img/bg_fall.png">
+    </div>
+    <div class="opera flex_aj mt40">
+        <div class="opera_item again flex_aj font15">在玩一局(<cite id="countdown">5</cite>)</div>
+    </div>
+</section>
+<section class="video-discuss-form" id="video-discuss-form">
+    <input type="text" class="video-discuss-input" id="send_msg_text">
+    <a href="javascript:void(0);" class="video-discuss-face" onclick="showEmotionDialog()"></a>
+    <button class="video-discuss-button bgc1 colw" onclick="onSendMsg()">发送</button>
+</section>
+</body>
+</html>
+<script src="../js/jquery-1.8.3.min.js"></script>
+<script src="../js/jsmpeg.min.js"></script>
+<script src="../js/md5.min.js"></script>
+<script src="../js/dlc.js"></script>
+<script type="text/javascript" src="https://tls.qcloud.com/libs/api.min.js"></script>
+<!--引入webim sdk-->
+<script type="text/javascript" src="../js/WebTim_V1.7/sdk/webim.js?v=1"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/sdk/json2.js"></script>
+<!--webim demo js-->
+<script type="text/javascript" src="../js/WebTim_V1.7/js/demo_base.js"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/js/demo_group_notice.js"></script>
+<script type="text/javascript" src="../js/WebTim_V1.7/base.js"></script>
+<script>
+    $('#get_send').on('click',function(){
+        console.log(145);
+        $('#video-discuss-form').show();
+    });
+	//处理腾讯消息回调
+    sdkLogin(localStorage.getItem('tim_uid'),localStorage.getItem('tim_sig'));
+    function WebTimMsgNotify(msg){
+        console.log('############');
+        console.log(msg);
+        try{
+            //处理特殊通知消息
+            if(msg){
+                var bigMsg = msg;
+                var msg =  JSON.parse(escape2Html(msg.elems[0].content.text));
+                console.log(msg);
+                if(msg.type){
+                    console.log('非消息');
+                    switch(msg.type){
+                        case 1://特定消息
+                            break;
+                        case 10://游戏结果//判断user_id=0只刷新排队//user_id>0才是结果
+                            if(msg.success==0){//抓不中
+                                $('.catch_fail').show();
+                                var num = 5;
+                                var timer = setInterval(function(){
+                                    num--;
+                                    if(num<=0){
+                                        num=0;
+                                        clearInterval(timer);
+                                        location.reload();
+                                    }
+                                    $('#countdown').text(num);
+                                },1000);
+                            }else if(msg.success==1){//抓中了
+                                $('.catch_success').show();
+                            }
+                            break;
+                        case 11://预约排队通知
+                            break;
+                        case 12://滚动公告推送
+                            break;
+                        case 13://
+                            break;
+                        case 14://
+                            break;
+                        case 15://房间状态
+                            break;
+                        case 16://
+                            break;
+                        case 17://
+                            break;
+                        case 18://房间排队人数
+                            break;
+                    }
+                }else if(bigMsg.elems[0].type == 'TIMTextElem'){//聊天的
+                    console.log(bigMsg.elems[0].content.text);
+                    if($('.msg_box').children('li').length>3){
+                        $('.msg_box').children('li').eq(0).remove();
+                    }
+                    $('.msg_box').append('<li class="font14 colw"><cite class="color1">jerry:</cite>'+bigMsg.elems[0].content.text+'</li>');
+                }else{
+                    console.log(bigMsg.elems[0]);
+                }
+            }
+        }catch(e){
+            //处理聊天消息
+            console.log(e);
+        if(msg.elems[0].type == 'TIMTextElem'){//聊天的
+                console.log(msg.elems[0].content.text);
+                if($('.msg_box').children('li').length>3){
+                    $('.msg_box').children('li').eq(0).remove();
+                }
+                $('.msg_box').append('<li class="font14 colw"><cite class="color1">jerry:</cite>'+bigMsg.elems[0].content.text+'</li>');
+            }else{
+                console.log(msg.elems[0]);
+            }
+        }
+    }
+
+   function getQueryString(key) {
+        const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        const result = window.location.search.substr(1).match(reg);
+        return result ? decodeURIComponent(result[2]) : null;
+    }
+    var fac_id, ws,ctime,move_time,top_time,mactype,canvas = document.getElementById('video_canvas'),onOff=1;
+    $('#game_begin').on('click',function(){//开始抓娃娃
+        dlc_request('api/room/api',{api_name: 'room_game_start',token: localStorage.getItem('token'),room_id: getQueryString('room_id')},function(res){
+            console.log(res);
+            if (res && res.code == 1) {
+                fac_id = res.data.fac_id;
+                ctime=res.data.ctime;
+                move_time=res.data.move_time;
+                mactype=res.data.mactype;
+                top_time=res.data.top_time;
+                onOff = 0;
+                ws = new WebSocket('ws://120.77.72.190:5189');
+                dlctipbox.show(res.msg);
+                $('.start_wrap').hide();$('.btn_bar').show();
+            }else{
+                dlctipbox.show(res.msg);
+            }
+        });
+    });
+    //获取房间信息room_info
+    dlc_request('api/room/api',{api_name: 'room_info',token: localStorage.getItem('token'),room_id: getQueryString('room_id')},function(res){
+        console.log(res);
+        if(res.code == 1){
+            var res = res.data,now_user='';
+			//加入群组
+			applyJoinBigGroup(res.id);
+			//退出群
+			//quitBigGroup(res.id);
+			//
+            $('#now_user_name').text();
+            $('#needcoin').text(res.needcoin+'币/次');
+            console.log(res.front_wait_num);
+            if(res.front_wait_num>0){
+                $('#front_wait_num').text(res.front_wait_num).parents('#game_appoint').show();
+            }else{
+                $('#game_begin').show();
+            }
+            if(res.now_user){//有人在玩
+                now_user+='<div class="face_info pos_a flex_a" id="now_user">' +
+                        '<img src="'+res.now_user.avatar+'" class="face">'+
+                        '<div class="colw font14 ml10">'+
+                        '<p class="fw" id="now_user_name">'+res.now_user.user_nicename+'</p>'+
+                        '<p class="">游戏中</p>'+
+                        '</div>'+
+                        '</div>';
+                $('.audioWrap').append(now_user);
+            }
+            var dolls = '';
+            for(var i in res.img){
+                dolls+='<li><img src="'+res.img[i]+'" class="dolls_img"></li>';
+            }
+            if(dolls){
+                $('.dolls_details').html(dolls);
+            }else{
+                $('.dolls_details').html(emptyTip('暂无记录'));
+            }
+        }else{
+            console.log(res);
+        }
+    });
+    catch_record();//最近抓中记录
+    game_audience();//房间观众列表
+    getBaseInfo();//获取个人信息
+    function catch_record(){
+        dlc_request('api/room/api',{api_name: 'room_history',token: localStorage.getItem('token'),page:1,size:20,room_id: getQueryString('room_id')},function(res){
+            console.log(res);
+            if(res.code==1){
+                var res = res.data,str='';
+                for(var i in res){
+                    str+='<li>'+
+                            '<a href="" class="flex-sb">'+
+                            '<div class="flex_a">'+
+                            '<div>'+
+                            '<img src="'+res[i].avatar_thumb+'" class="face">'+
+                            '</div>'+
+                            '<span class="ml20">'+res[i].user_nicename+'</span>'+
+                            '</div>'+
+                            '<div>'+
+                            '<span class="mr10">'+res[i].passtime+'</span>'+
+                    '<img src="../img/ico_play.png" style="width: .4rem;">'+
+                            '</div>'+
+                            '</a>'+
+                            '</li>';
+                }
+                if(str){
+                    $('.record').html(str);
+                }else{
+                    $('.record').html(emptyTip('暂无记录'));
+                }
+            }
+        });
+    }
+    function game_audience(){
+        dlc_request('api/mywawa/api',{api_name: 'game_audience',page:1,size:3,token: localStorage.getItem('token'),room_id: getQueryString('room_id')},function(res){
+            console.log(res);
+            if(res.code == 1){
+                var list = res.data;
+                var str = '<div class="ml20">'+
+                        '<p class="col0 fw">'+res.total+'人</p>'+
+                        '<p class="col9">在房间</p>'+
+                        '</div>'+
+                        '<div class="face_box font0">';
+                for(var i in list){
+                    str+= '<a href=""><img src="'+list[i].avatar+'" class="face"></a>';
+                }
+                str+='</div><a href="" class="flex_a"><img src="../img/dot.png" style="width: .38rem;" class="ml10 mr10"></a>';
+                $('.room_face').html(str);
+            }
+        });
+    }
+    function getBaseInfo(){
+        dlc_request('api/public/?service=User.getBaseInfo',{token: localStorage.getItem('token'),uid:localStorage.getItem('id')},function(res){
+            console.log(res);
+            if(res.code == 1){
+                $('#coin').text(res.data.coin+'币');
+            }
+        });
+    }
+    var crawlCtrl = function () {
+        if(onOff)return false;
+        var sendObj = {};
+        sendObj.macno = fac_id;
+        sendObj.sysnum = ctime;
+        sendObj.type = arguments[0].value;
+        sendObj.move_time = move_time;
+        sendObj.top_time = top_time;
+        sendObj.mactype = mactype;
+        sendObj.sign = md5(fac_id + "DLCwawa" + arguments[0].value);
+        ws.send(JSON.stringify(sendObj));
+        ws.onopen = function (event) {
+            console.log(event);
+        };
+        ws.onclose = function (event) {
+            console.log(event);
+        };
+        ws.onmessage = function (event) {
+            var data = event.data;
+            console.log(data);
+        };
+    };
+    $.ajax({
+        url: "https://h5cs-1.agoraio.cn:7668/geth5gw/jsonp",
+        type: "POST",
+        headers: {
+            "Content-type": "application/json; charset=utf-8"
+        },
+        data: JSON.stringify(
+                {
+                    key: 'a1ce39779b1643c5a11e506da0abf9f4',
+                    cname: 'ggggg'
+                }),
+        success: function (res) {
+            $.ajax({
+                url: "https://" + res.gateway_addr[0] + "/v1/machine",
+                type: "POST",
+                data: {
+                    appid: '9f8d836d2e1d4f8baf368219c822f479',
+                    channel: 'ggggg',
+                    uid1: 1
+                },
+                success: function (res) {
+                    console.log(res);
+                    var player = new JSMpeg.Player(res.cameras.main, {canvas: canvas, autoplay: true});
+                }
+            })
+        }
+    });
+    $('.tab_bar').on('click','.tab_item',function(){
+        if($(this).hasClass('active'))return false;
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.tab_con_child').eq($(this).index()).show().siblings().hide();
+    });
+    $('#game_appoint').on('click',function(){//预约抓娃娃
+        dlc_request('api/room/api',{api_name: 'roomwait_edit',token: localStorage.getItem('token'),room_id: getQueryString('room_id')},function(res){
+            console.log(res);
+            if(res.code == 1){
+
+            }else{
+                dlctipbox.show(res.msg);
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
