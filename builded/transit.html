@@ -14,13 +14,12 @@
 <body>
 <script>
   function getQueryString(key) {
-    const reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-    const result = window.location.search.substr(1).match(reg);
+    var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+    var result = window.location.search.substr(1).match(reg);
     return result ? decodeURIComponent(result[2]) : null;
   }
 
-
-  let expireDays = 1000 * 60 * 60 *24;
+  var expireDays = 1000 * 60 * 60 *24;
   function setCookie (c_name, value, expiredays) {
     const exdate = new Date();
     exdate.setDate(exdate.getDate() + expiredays);

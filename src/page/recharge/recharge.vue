@@ -19,7 +19,7 @@
 			<div class="list_small">
 				<ul>
 					<li v-for="(item,index) in data.charge" @click="bg_color_one(item,index)" :class="{'active':index==current}">
-						<h3>{{item.bodycoin}}<span>币</span></h3>
+						<h3>{{item.bodycoin}}<span v-if="item.give_coin>0">+{{item.give_coin}}</span><span>币</span></h3>
 						<p><span>￥</span>{{item.money}}</p>
 					</li>
 					<!--<li class="margin">
@@ -119,6 +119,7 @@ export default {
   },
   created(){
   		pay_list().then(res => {   //充值规则列表
+  			console.log(res)
           if (res.code == 1) {
             this.data=res.data;
           } else {
@@ -137,6 +138,7 @@ export default {
 //	        console.log(err)
 //	     })
 		pay_datas().then(res => {   //获取支付方式列表
+			console.log(res)
           if (res.code == 1) {
             this.pay_data=res.data;
           } else {
@@ -213,7 +215,8 @@ export default {
 				                jsApiParameters,
 				                function(res){
 				                    if(res.err_msg == 'get_brand_wcpay_request:ok'){
-				                        alert('充值成功');
+				                    	location.reload(); 
+//				                        alert('充值成功');
 				                    }else{
 				                        alert('充值取消或失败');
 				                    }

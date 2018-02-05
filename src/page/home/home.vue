@@ -61,6 +61,7 @@
               <span>{{item.spendcoin}}币/次</span>
               <span>排队{{item.wait_nums}}</span>
             </div>
+            <span class="wawaLabel">{{item.label}}</span>
           </router-link>
           <router-link v-else :to="{path:'/#',query:{}}" class="wawaLink">
             <img :src="item.gifticon">
@@ -78,6 +79,7 @@
               <span>{{item.spendcoin}}币/次</span>
               <span>排队{{item.wait_nums}}</span>
             </div>
+            <span class="wawaLabel">{{item.label}}</span>
           </router-link>
         </flexbox-item>
       </flexbox>
@@ -95,7 +97,7 @@
   import Marquee from "vux/src/components/marquee/marquee";
   import MarqueeItem from "vux/src/components/marquee/marquee-item";
   import {setStore,delCookie,removeStore} from "../../config/mUtils";
-
+  import vueSeamlessScroll from 'vue-seamless-scroll'
   export default {
     data() {
       return {
@@ -117,12 +119,19 @@
       headTop,
       Flexbox,
       FlexboxItem,
+      vueSeamlessScroll,
     },
 
     computed: {
       ...mapState([
         'errorCode'
-      ])
+      ]),
+      classOption: function () {
+        return {
+          limitMoveNum: 2,
+          direction: 2,
+        }
+      }
     },
 
     methods: {
@@ -173,6 +182,19 @@
     background-color: #eefaff;
   }
 
+  .wawaLabel{
+    position: absolute;
+    left: 0;
+    @include px2rem(top,50);
+    @include font-dpr(13px);
+    display: inline-block;
+    color: white;
+    @include px2rem(padding,5 10 5 5);
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+  }
+
   .roomList {
     @include px2rem(padding, 10);
   }
@@ -200,6 +222,7 @@
     display: block;
     border: 1px solid #e5e5e5;
     font-size: 0;
+    position: relative;
     img {
       max-width: 100%;
     }
@@ -324,5 +347,35 @@
   .marquee {
     @include px2rem(padding, 10 0 15 0);
     background: #86d8ff url("../../images/marquee.png") no-repeat center bottom/contain;
+  }
+
+
+  .warp {
+    height: 260px;
+    width: 360px;
+    overflow: hidden;
+  }
+  .warp ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+  }
+  .warp li {
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+  }
+
+  $colors: red, orange, yellow, green, blue, purple;
+  $repeat: 20;
+  @for $i from 1 through $repeat {
+    .roomList .wawaItem:nth-child(#{length($colors)}n+#{$i}) {
+      .wawaLabel{
+        background: lighten(nth($colors, random(length($colors))), 20%);
+        color:white;
+      }
+    }
   }
 </style>

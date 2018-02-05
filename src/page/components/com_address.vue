@@ -59,7 +59,8 @@ export default {
   	  		query:{
   	  			addr_id:item.addr_id,
   	  			name:item.username,
-  	  			phone:item.mobile
+  	  			phone:item.mobile,
+  	  			addr:item.addr
   	  		}
   	  	});
   	  },

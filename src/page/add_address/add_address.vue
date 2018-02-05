@@ -219,7 +219,6 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
         oright.style.cssText="position:absolute;top:0;width:31%;left:66%;text-align: center;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
         oslot2.style.cssText="position:absolute;top:78px;left:32%;display:inline-block;"
         oslot4.style.cssText="position:absolute;top:78px;left:63%;display:inline-block;"
-
     },
     updated(){
 

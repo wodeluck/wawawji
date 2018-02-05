@@ -14,7 +14,7 @@
           </div>
           <div class="userName">
             <span>{{userDetailInfo.user_nicename}}</span>
-            <span>{{userDetailInfo.user_id}}</span>
+            <span>ID:{{userDetailInfo.user_id}}</span>
           </div>
         </div>
         <div class="r">
@@ -31,7 +31,7 @@
           <li v-for="(item,index) in wawaList" :key="index">
             <div class="wrap">
               <img :src="item.gifticon"/>
-              <span :class="{zengsong:item.is_receive==1}"></span>
+              <span v-show="item.is_receive>=1" :class="{zengsong:item.is_receive>=1}"></span>
             </div>
             <div class="wawaInfo">
               <span>{{item.giftname}}</span>
@@ -41,8 +41,8 @@
         </ul>
       </div>
     </div>
-    <gift-wawa :show-hide-on-click-fail2="showHideOnClickFail" v-on:listenToDonationSuccess="listenToDonationSuccess" :user-avatar="userAvatar" :user-nick-name="userNickName" :user-id="userId"></gift-wawa>
-    <donation-success :show-donation-success="showDonationSuccess"></donation-success>
+    <gift-wawa v-on:listenToReset="listenToReset" :show-hide-on-click-fail2="showHideOnClickFail" v-on:listenToDonationSuccess="listenToDonationSuccess" :user-avatar="userAvatar" :user-nick-name="userNickName" :user-id="userId"></gift-wawa>
+    <donation-success v-on:listenToReset2="listenToReset2" class="nonebg" :show-donation-success="showDonationSuccess"></donation-success>
   </div>
 </template>
 
@@ -74,6 +74,12 @@
     },
     props: [],
     methods: {
+      listenToReset(){
+        this.showHideOnClickFail=false;
+      },
+      listenToReset2(){
+        this.showDonationSuccess=false;
+      },
       initData() {
         audienceDetail(this.$route.query.uid).then(res => {
           if(res && res.code==1){
@@ -129,8 +135,16 @@
     background: transparent url("../../../images/ic_lady@2x.png") no-repeat center/contain;
   }
 
+  .wrap{
+    position: relative;
+  }
   .zengsong{
-
+    background: transparent url("../../../images/ic_give@2x.png") no-repeat center/contain;
+    @include px2rem(height,36);
+    @include px2rem(width,36);
+    position: absolute;
+    @include px2rem(bottom,15);
+    @include px2rem(left,15);
   }
 
   .userDetailInfo{

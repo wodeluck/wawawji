@@ -108,7 +108,7 @@
 	                				<p>{{item_two.ctime}}
 	                				   <!--<img v-show="!empty_show" class="video" :src="require('assets/img/full_checkbox.png')">
 	                				   <img v-show="empty_show" class="video" :src="require('assets/img/empty_checkbox.png')">-->
-	                				   	<input type="checkbox" @change="all_data_three(item_two,index,$event)"  v-model="item_two.checked"/>
+	                				   <!--	<input type="checkbox" @change="all_data_three(item_two,index,$event)"  v-model="item_two.checked"/>-->
 	                				</p>
 	                				
 	                			</div>
@@ -329,7 +329,8 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
 //	    })
   },
   methods:{
-  	  tabsSwitch: function(tabIndex) {   
+  	  tabsSwitch: function(tabIndex) {  
+  	  	
         var tabCardCollection = document.querySelectorAll(".tab-card"),  
                         len = tabCardCollection.length;  
   
@@ -397,23 +398,23 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
     	console.log(this.list_two);
 //  	this.list(onumber_two,list_two);
     },
-    all_data_three(item_two,index,$event){
-    	if(item_two.checked==true){
-    		this.onumber_three+=1;
-    		this.list_three.push(parseInt(item_two.id));
-    	}
-    	if(item_two.checked==false){
-    		this.onumber_three-=1;
-    		for(var i in this.list_three){
-    			if(item_two.id==this.list_three[i]){
-    				console.log(i);
-   	  				this.list_three.splice(i,1);
-    			}
-    		}
-    	}
-    	console.log(this.list_three);
-//  	this.list(onumber_three,list_three);
-    },
+//  all_data_three(item_two,index,$event){
+//  	if(item_two.checked==true){
+//  		this.onumber_three+=1;
+//  		this.list_three.push(parseInt(item_two.id));
+//  	}
+//  	if(item_two.checked==false){
+//  		this.onumber_three-=1;
+//  		for(var i in this.list_three){
+//  			if(item_two.id==this.list_three[i]){
+//  				console.log(i);
+// 	  				this.list_three.splice(i,1);
+//  			}
+//  		}
+//  	}
+//  	console.log(this.list_three);
+////  	this.list(onumber_three,list_three);
+//  },
     mail_one(){
     	if(this.onumber==0){
     		var _self=this;

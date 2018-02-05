@@ -34,10 +34,13 @@
 									<img :src="require('assets/img/pos.png')">
 									<span class="bill_left_address">{{item.addr}}{{item.addr_info}}</span>
 								</p>
-								<p class="three">
+								<p class="three" v-if="item.kdno">
 									快递单号
 									<span>{{item.kdno}}</span>
 									<span>{{item.kdname}}</span>
+								</p>
+								<p class="three" v-else>
+									暂无
 								</p>
 							</div>
 							<div class="bill_right">
@@ -127,6 +130,7 @@ export default {
 		            window.setTimeout(function(){
 		              _self.name_null=!_self.name_null;
 		            }, _self.times);
+		            location.reload(); 
 	          } else {
 	            console.log(err)
 	          }

@@ -53,11 +53,11 @@
           <div v-show="my_wait_rownum==1" class="begainWaWa" @click="gameStart"></div>
           <div v-show="my_wait_rownum==0" class="needReservation" @click="needReservation">
             <span>预约抓娃娃</span>
-            <span>前面{{my_wait_rownum}}人</span>
+            <span>前面{{front_wait_num}}人</span>
           </div>
           <div v-show="my_wait_rownum>=2" class="cancelReservation" @click="cancelReservation">
             <span>取消预约</span>
-            <span>前面{{my_wait_rownum-1}}人</span>
+            <span>前面{{front_wait_num}}人</span>
           </div>
         </section>
         <div class="ctrlInfo">
@@ -93,7 +93,8 @@
       <swiper v-model="index" :show-dots="false" class="mt15" ref="swiper">
         <swiper-item v-for="(pitem, pindex) in list2" :key="pindex">
           <div class="tab-swiper vux-center" v-if="pindex==0">
-            <img class="w100" v-if="tapItemDetail[pindex]" :src="item" v-for="(item,index) in tapItemDetail[pindex]"
+            <p class="needcoin">可兑换娃娃币{{needcoin}}</p>
+            <img style="display: block;font-size: 0;" class="w100" v-if="tapItemDetail[pindex]" :src="item" v-for="(item,index) in tapItemDetail[pindex]"
                  :key="index"/>
           </div>
           <div class="tab-swiper vux-center" v-else>
@@ -134,6 +135,7 @@
                    :show-hide-on-click="showHideOnClickFail"></tip-grap-fail>
     <wxshare class="nonebg showT" :show-hide-on-click="wxmask"></wxshare>
   </div>
+  <loading v-model="isLoading"></loading>
 </template>
 <script>
   import headTop from '../../components/header/head';
@@ -236,7 +238,9 @@
         groupId: '',//群组id
         gameId: '',//游戏id
         userCoin: '',//用户coin
-        reservationRandomNum: ''//当前预约用户id
+        reservationRandomNum: '',//当前预约用户id
+        needcoin:'',//可兑换娃娃币
+        isLoading:true,
 
       }
     },
@@ -270,6 +274,7 @@
       // await exitRoom(this.roomId).then(res => {
       //
       // });
+      this.sendMsgToIM(4);
       next();
     },
     methods: {
@@ -284,8 +289,8 @@
       listenToCancelReservation(data) {//取消预约娃娃机
         getRoomInfo(this.$route.query.roomId).then(res=>{
           if(res && res.code==1){
-            alert(res.data.front_wait_num);
             this.my_wait_rownum = res.data.my_wait_rownum;
+            this.front_wait_num=res.data.front_wait_num;
           }
         })
       },
@@ -293,6 +298,7 @@
         getRoomInfo(this.$route.query.roomId).then(res=>{
           if(res && res.code==1){
             this.my_wait_rownum = res.data.my_wait_rownum;
+            this.front_wait_num=res.data.front_wait_num;
           }
         })
 
@@ -315,6 +321,7 @@
         getRoomInfo(this.$route.query.roomId).then(res => {
           if (res.data.now_user) {
             this.userInfo = res.data.now_user;
+            this.front_wait_num=res.data.front_wait_num;
           }
         })
       },
@@ -379,7 +386,6 @@
           if (res && res.code == 1) {
             this.alertContent = res.msg;
             this.showAlertPlugin();
-            // this.my_wait_rownum = 0;
             this.sendMsgToIM(6);
 
             getRoomInfo(this.$route.query.roomId).then(res=>{
@@ -442,6 +448,9 @@
         clearInterval(this.st);
       },
       async initData() {
+        this.$vux.loading.show({
+          text: '请稍等...'
+        });
         await getRoomInfo(this.$route.query.roomId).then(res => {
           console.log(res);
           if (res.data.now_user) {
@@ -451,6 +460,7 @@
             this.tapItemDetail.push(res.data.img);
             this.spendcoin = res.data.spendcoin;
             this.avChatRoomId = res.data.id;
+            this.needcoin=res.data.needcoin;
             this.bgmusic = new Howl({
               src: [res.data.bgmusic],
               preload: true,
@@ -504,7 +514,7 @@
         });
         let videoWrapMain = this.$refs.videoWrapMain;
         let videoWrapSub = this.$refs.videoWrapSub;
-        getLiveInfo().then(res => {
+       await getLiveInfo().then(res => {
           console.log(res);
           return getLiveStream();
         }).then(res => {
@@ -540,6 +550,7 @@
           }
         });
         this.sendMsgToIM(3);
+        this.$vux.loading.hide();
       },
       async gameStart() {//开始游戏
         this.showHideOnClickFail = false;
@@ -604,7 +615,7 @@
         })
       },
       operatorMachine(e) {//操作娃娃机
-        this.type = e.target.id;
+        this.type = e?e.target.id:'grab';
         this.sign = md5(this.macno + "DLCwawa" + this.type);
         const sendObj = {};
         sendObj.macno = this.macno;
@@ -616,7 +627,6 @@
         sendObj.sign = this.sign;
         console.log(JSON.stringify(sendObj));
         const ws = this.webSocket;
-        console.log(ws);
         ws.send(JSON.stringify(sendObj));
         if(this.type=='grab'){
           this.yx_xiazhua.play();
@@ -1133,5 +1143,12 @@
     right: 0;
     top: 3rem;
     z-index: 99;
+  }
+
+  .needcoin{
+    @include px2rem(line-height,100);
+    text-align: center;
+    @include font-dpr(16px);
+    color: #86d8ff;
   }
 </style>

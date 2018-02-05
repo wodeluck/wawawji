@@ -3,7 +3,7 @@
 		<header>
 			<a  @click="black_go"><img :src="require('assets/img/header_back.png')"></a>
 			<h2>选择收货地址</h2>
-			<div class="header_right">
+			<div class="header_right"  @click="add">
 				<img :src="require('assets/img/add_address.png')">
 			</div>
 		</header>
@@ -86,7 +86,10 @@ export default {
   	  },
   	  black_go(){
 	  		this.$router.go(-1)
-	  }
+	  },
+	  add(){
+  	  	this.$router.push({path:'/add_address'});
+  	  }
   }
 }
 </script>
@@ -102,7 +105,7 @@ export default {
 	}	
 	.speack{
 		padding: 0 10px;
-	    margin-top: 20px;
+	    margin-top: 40px;
 	    width: 100%;
 	    box-sizing: border-box;
 	}

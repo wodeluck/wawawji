@@ -9,6 +9,7 @@
 			<p>{{data.ctime}}</p>
 			<!--<img :src="require('assets/img/banner.png')">-->
 			<div class="text" v-html="data.content">
+				
 				<!--<ul>
 					<li>
 						又到阳春三月，习近平等党和国家领导人与来自各地的全国人大代表和全国政协委员，将在人民大会堂济济一堂，共商国是。

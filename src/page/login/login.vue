@@ -19,6 +19,7 @@
         </div>
       </div>
     </section>
+    <loading v-model="loading"></loading>
   </div>
 </template>
 
@@ -40,6 +41,7 @@
         headTitle: '登录',
         alertContent: '',
         toastContent: '',
+        loading:true,
       }
     },
     components: {
@@ -47,6 +49,11 @@
       loading,
     },
     props: [],
+    created(){
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+    },
     methods: {
       ...mapMutations([
         'SAVE_IMINFO',

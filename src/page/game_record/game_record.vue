@@ -42,7 +42,7 @@ export default {
     }
   },
   created(){
-  	function formatDate(now) {
+	function formatDate(now) {
 					var year=now.getYear();
 					var month=now.getMonth()+1;
 					var date=now.getDate();
@@ -63,7 +63,9 @@ export default {
 	            console.log(err)
 	          }
 	        });
-//	this.$post('api/mywawa/api',{      //游戏记录
+	    console.log(formatDate(new Date(Number(1517036569))))
+	    console.log(formatDate(new Date(Number(1517579397))))
+//	this.$post('api/mywawa/api',{      //游戏记录                                                                         1517036569      1517579397
 //			api_name:'game_history',
 //			token:this.user_id,
 //			page:this.page,

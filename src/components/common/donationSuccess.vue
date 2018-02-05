@@ -1,6 +1,6 @@
 <template>
   <div>
-    <x-dialog v-model="showDonationSuccess" class="dialog-demo" hide-on-blur>
+    <x-dialog v-model="showDonationSuccess" class="dialog-demo" @on-hide="hide" hide-on-blur>
       <div class="img-box">
         <img src="../../images/bg_yes@2x.png" style="max-width:100%">
       </div>
@@ -26,7 +26,8 @@
     },
     methods: {
       hide(){
-        console.log('hide');
+        this.showDonationSuccess=false;
+        this.$emit('listenToReset2')
       }
     },
     props: ['showDonationSuccess'],

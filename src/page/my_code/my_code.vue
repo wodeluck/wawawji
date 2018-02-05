@@ -5,7 +5,7 @@
       <h2>我的邀请码</h2>
     </header>
     <section>
-      <div class="input">
+      <div class="input" v-show="hidden_code">
         <input type="text" placeholder="请输入邀请码" v-model="code"/>
         <button @click="exchange">兑换</button>
       </div>
@@ -52,6 +52,7 @@
         rule_data: "",
         code: "",
         wxtask:false,
+        hidden_code:true
       }
     },
     components:{
@@ -100,6 +101,7 @@
           this.toastContent = res.msg;
           this.showToastPlugin();
           if (res.code == 1) {
+          	this.hidden_code=!this.hidden_code;
             setTimeout(() => {
               history.back();
             }, 1500);
@@ -128,6 +130,7 @@
 
   section .input {
     @include px2rem(padding, 40 0);
+    text-align: center;
   }
 
   section .input input {
@@ -135,12 +138,12 @@
     border: 2px dashed #9DDFFF;
     @include font-dpr(18px);
     letter-spacing: 1px;
+    margin-right: 15px;
     @include px2rem(text-indent,30);
     @include px2rem(border-radius,40);
   }
 
   section .input button {
-    float: right;
     @include px2rem(width, 200);
     @include px2rem(height, 88);
     @include font-dpr(18px);

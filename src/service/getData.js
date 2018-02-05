@@ -357,6 +357,12 @@ export const 	news_data = () => fetch('api/notice/api', {
   page:1
 }, 'POST');
 
+//// personal_center  获取个人信息
+//export const 	personal_pub = (user_id) => fetch('api/public/?service=User.getBaseInfo', {
+//token:getCookie('token'),
+//uid:user_id
+//}, 'POST');
+
 // personal_center  我的娃娃上面个人信息接口
 export const 	data_user_names = () => fetch('api/mywawa/api', {
   api_name:'get_info',

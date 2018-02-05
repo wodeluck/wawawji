@@ -110,6 +110,7 @@
     watch:{
       showHideOnClick:function () {
         this.showHideOnClickFail=this.showHideOnClick;
+       
       }
     },
     computed:{

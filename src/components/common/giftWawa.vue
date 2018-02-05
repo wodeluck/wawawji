@@ -6,7 +6,7 @@
           <img :src="userAvatar"/>
           <div class="topR">
             <span>{{userNickName}}</span>
-            <span>{{userId}}</span>
+            <span>ID:{{userId}}</span>
           </div>
         </div>
         <div class="button">
@@ -123,6 +123,7 @@
       },
       hide(){
         this.showHideOnClickFail=false;
+        this.$emit('listenToReset');
       }
     },
     props: ['showHideOnClickFail2', 'userAvatar', 'userNickName', 'userId'],
@@ -216,6 +217,9 @@
       .topR {
         display: inline-block;
         vertical-align: 100%;
+        span{
+          display: block;
+        }
       }
     }
     p {

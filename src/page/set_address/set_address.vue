@@ -16,7 +16,11 @@
 					<div class="windon_show" v-show="text_phone">请输入联系方式</div>
 					<div class="windon_show" v-show="text_phone_tel">请输入正确手机号</div>
 				</li>
-				<li @click="city">
+				<li v-show="oddr" @click="city">
+					<p>省/市/区/县</p>
+					<div class="input_right">{{addr}}<img :src="require('assets/img/right.png')"></div>
+				</li>
+				<li @click="city"  v-show="!oddr">
 					<p>省/市/区/县</p>
 					<div class="input_right" style="font-size:14px;">
 						{{myAddressProvince}} {{myAddressCity}} {{myAddresscounty}}
@@ -101,12 +105,15 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
         times:1000,
         text_phone_tel:false,
         user_id:"54e3bde9a9c25741acd151dd4b957641",
+        addr:"",
+        oddr:true
       }
     },
     created(){
  		 this.oname=this.$route.query.name;
  		 this.phone=this.$route.query.phone;
  		 this.is_id=this.$route.query.addr_id;
+ 		 this.addr=this.$route.query.addr;
     },
     methods: {
      onMyAddressChange(picker, values) {
@@ -123,6 +130,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
       	this.address_window=!this.address_window;
       },
       city(){
+      	this.oddr=!this.oddr;
       	this.address_window=!this.address_window;
       },
       black_go(){

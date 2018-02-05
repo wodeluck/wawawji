@@ -26,6 +26,7 @@
 	            
 	            <div class="cards">  
 	                <div class="tab-card" style="display: block;">
+	                	<div class="tab_card_text" v-html="data.content"></div>
 	                	<img class="details" :src="data.gift_img">
 	                </div>  
 	                <div class="tab-card">
@@ -413,5 +414,10 @@
 		font-size: 25px;
 	    line-height: 22px;
 	    color: #666;
+	}
+	.tab_card_text{
+		font-size: 15px;
+	    color: #999;
+	    line-height: 30px;
 	}
 </style>

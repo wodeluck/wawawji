@@ -5,29 +5,29 @@
 			<h2>我的</h2>
 			<div class="header_right" @click="news">
 				<img :src="require('assets/img/ic_news.png')">
-				<span>{{onumber}}</span>
+				<span>{{data.noread}}</span>
 			</div>
 		</header>
 		<div class="user">
 			<div class="header_img">
 				<div class="out_label">
 					<router-link to="/set_data">
-						<img class="pic_personl" :src="data_user_name.avatar"/>
+						<img class="pic_personl" :src="data.avatar"/>
 					</router-link>
-					<div class="in_label" v-if="data_user_name.sex==1" style="background: #86d8ff;">
+					<div class="in_label" v-if="data.sex==1" style="background: #86d8ff;">
 						<img class="pic_label" :src="require('assets/img/center_pic_label.png')" style="margin-top:2px;"/>
 					</div>
-					<div class="in_label" v-if="data_user_name.sex==2" style="background: #F47E8C;">
+					<div class="in_label" v-if="data.sex==2" style="background: #F47E8C;">
 						<img class="pic_label" :src="require('assets/img/key_left.png')" style="margin-top:1px;"/>
 					</div>
 				</div>
 				<div class="user_name">
 					<div class="inline_black">
-						<span style="color:#fff;">{{data_user_name.user_nicename}}</span>
+						<span style="color:#fff;">{{data.user_nicename}}</span>
 						<img class="pic_label" :src="require('assets/img/center_name_right.png')"/>
 					</div>
 				</div>
-				<p>ID:{{data_user_name.user_id}}</p>
+				<p>ID:{{data.id}}</p>
 			</div>
 		</div>
 		<!--列表-->
@@ -39,7 +39,7 @@
 						<p>我的娃娃币</p>
 					</div>
 					<div class="list_right">
-						<p>余额<span>{{coin}}</span></p>
+						<p>余额<span>{{data.coin}}</span></p>
 						<img :src="require('assets/img/right.png')">
 					</div>
 				</li>
@@ -49,7 +49,7 @@
 						<p>娃娃币帐单</p>
 					</div>
 					<div class="list_right">
-						<p><span>{{wawa_list}}</span></p>
+						<p><span>{{data.coin_bill_count}}</span></p>
 						<img :src="require('assets/img/right.png')">
 					</div>
 				</li>
@@ -59,7 +59,7 @@
 						<p>我的娃娃</p>
 					</div>
 					<div class="list_right">
-						<p><span>{{my_wawa}}</span></p>
+						<p><span>{{data.wawa_count}}</span></p>
 						<img :src="require('assets/img/right.png')">
 					</div>
 				</li>
@@ -69,7 +69,7 @@
 						<p>我的礼品</p>
 					</div>
 					<div class="list_right">
-						<p><span>{{my_gift}}</span></p>
+						<p><span>{{data.gift_count}}</span></p>
 						<img :src="require('assets/img/right.png')">
 					</div>
 				</li>
@@ -137,7 +137,7 @@
 </template>
 
 <script>
-import {ponson,news,coins,wawa_lists,my_wawas,my_gifts} from '../../service/getData';
+import {ponson,getUserInfo} from '../../service/getData';
 export default {
 
   data () {
@@ -147,135 +147,33 @@ export default {
      	wawa_list:"0",
      	my_wawa:"0",
      	my_gift:"0",
-     	user_id:"54e3bde9a9c25741acd151dd4b957641",
-     	data_user_name:""
+     	user_id:"",
+     	data_user_name:"",
+     	data:""
     }
   },
   created(){
 
-       news().then(res => {   //消息列表
-       	  
-          if (res.code == 1) {
-            this.onumber=res.data.length;
-	        console.log(this.onumber);
-          } else {
-            console.log(err)
-          }
-        });
-
-
-//	this.$post('api/notice/api',{      //消息列表
-//			api_name:'get_notice_list',
-//			token:this.user_id,
-//			page:1
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.onumber=res.data.length;
-//	        	console.log(this.onumber);
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	     })
 ponson().then(res => {   //我的娃娃上面个人信息接口
 			console.log(res);
           if (res.code == 1) {
             this.data_user_name=res.data;
+            this.user_id=res.data.user_id;
+            console.log(this.user_id)
+            getUserInfo(this.user_id).then(res => {   // 获取个人信息
+				console.log(res);
+		          if (res.code == 1) {
+		             this.data=res.data;
+		          } else {
+		            console.log(err)
+		          }
+		        });
           } else {
             console.log(err)
           }
         });
-//	this.$post('api/mywawa/api',{      //我的娃娃上面个人信息接口
-//			api_name:'get_info',
-//			token:this.user_id,
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.data_user_name=res.data;
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	     })
-coins().then(res => {   //娃娃币
-		console.log(res);
-          if (res.code == 1) {
-            this.coin=res.data.coin;
-          } else {
-            console.log(err)
-          }
-        });
-//	this.$post('index.php?g=Api&m=Record&a=api',{      //娃娃币
-//			api_name:'gold',
-//			token:this.user_id
-//
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.coin=res.data.coin;
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	     })
-//
-wawa_lists().then(res => {   //娃娃币账单
-		console.log(res);
-          if (res.code == 1) {
-            this.wawa_list=res.data.list.length;
-          } else {
-            console.log(err)
-          }
-        });
-//	this.$post('index.php?g=Api&m=Record&a=api',{      //娃娃币账单
-//			api_name:'bodyBill',
-//			token:this.user_id
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.wawa_list=res.data.list.length;
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	    })
-//
-my_wawas().then(res => {   //我的娃娃
-		console.log(res);
-          if (res.code == 1) {
-            this.my_wawa=res.data.length;
-          } else {
-            console.log(err)
-          }
-        });
-//	this.$post('api/mywawa/api',{      //我的娃娃
-//			api_name:'my',
-//			token:this.user_id
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.my_wawa=res.data.length;
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	    })
-//
-my_gifts().then(res => {   //我的礼品
-		console.log(res);
-          if (res.code == 1) {
-            this.my_gift=res.data.length;
-          } else {
-            console.log(err)
-          }
-        });
-//	this.$post('index.php?g=Api&m=Record&a=api',{      //我的礼品
-//			api_name:'giftList',
-//			token:this.user_id
-//		}).then((res) => {
-//	        console.log(res);
-//	        if(res.code==1){
-//	        	this.my_gift=res.data.length;
-//	        }
-//	     },err => {
-//	        console.log(err)
-//	    })
+        
+
   },
   methods:{
   	news(){
@@ -312,8 +210,8 @@ my_gifts().then(res => {   //我的礼品
 	  		this.$router.go(-1)
 	}
   },
-  mounted(){
-
+  updated(){
+		
   }
 }
 </script>

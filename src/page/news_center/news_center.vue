@@ -61,6 +61,7 @@ export default {
 //	        console.log(err)
 //	     })
 		news_data().then(res => {   //消息列表
+			console.log(res)
           if (res.code == 1) {
             this.data=res.data;	
 				for (var i=0;i<res.data.length;i++) {	

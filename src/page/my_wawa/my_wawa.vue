@@ -16,10 +16,10 @@
 					<div class="banner_left_img">
 						<img class="pic" :src="data_user_name.avatar">
 						<div class="key"   v-if="data_user_name.sex==1" style="background:#86d8ff;">
-							<img :src="require('assets/img/key.png')">
+							<img :src="require('assets/img/center_pic_label.png')">
 						</div>
 						<div class="key"  v-if="data_user_name.sex==2"  style="background: #F47E8C;">
-							<img :src="require('assets/img/key.png')">
+							<img :src="require('assets/img/key_left.png')">
 						</div>
 					</div>
 					<div class="banner_left_id">
@@ -36,11 +36,10 @@
 			<!--选项卡 内容 -->
 			 <div id="app" class="box">
 	            <ul class="tabs clearfix">
-	                <li v-for="(tab,index) in tabsName" @click="tab_data(index)">
+	                <li v-for="(tab,index) in tabsName">
 	                    <a href="#" class="tab-link" @click="tabsSwitch(index)" v-bind:class="{active:tab.isActive}">{{tab.name}}</a>
 	                </li>
 	            </ul>
-
 	            <div class="cards">
 	            	<!--全部-->
 	                <div class="tab-card" style="display: block;">
@@ -156,7 +155,7 @@
 	                	<ul v-if="data_all_list_six.length>0">
 	                		<li v-for="item_six in data_all_list_six" @click="six(item_six)">
 	                			<div class="list_top">
-	                				<label class="in_three" v-if="item.status==4">获赠</label>
+	                				<label class="in_three" v-if="item_six.status==4">获赠</label>
 	                				<img class="wawa" :src="item_six.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
 	                				<div class="present"  v-if="item_six.is_receive==1">赠</div>
@@ -314,7 +313,7 @@ export default {
 					return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
 			}
 		use_name().then(res => {   //我的娃娃上面个人信息接口
-			console.log(res)
+			
           if (res.code == 1) {
             this.data_user_name=res.data;
           } else {
@@ -335,6 +334,7 @@ export default {
 //	     })
 	all_list(this.page).then(res => {   //我的娃娃列表
 		  console.log(res);
+		  console.log(1)
           if (res.code == 1) {
             this.data_all_list=res.data;
 	        	for(var i=0;i<this.data_all_list.length;i++){
@@ -360,7 +360,7 @@ export default {
 //	        console.log(err)
 //	     })
 wawa_coins().then(res => {   //获取娃娃(用于换币)
-		  console.log(res);
+		  
           if (res.code == 1){
           		this.wawa_coin=res.data;
 	        	for(var i=0;i<this.wawa_coin.length;i++){
@@ -389,7 +389,7 @@ wawa_coins().then(res => {   //获取娃娃(用于换币)
 //	        console.log(err)
 //	     })
 wawa_mails().then(res => {   //获取娃娃(用于邮寄)
-		  console.log(res);
+		  
           if (res.code == 1){
             this.wawa_mail=res.data;
             for(var i=0;i<this.wawa_mail.length;i++){
@@ -412,62 +412,20 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 //	     },err => {
 //	        console.log(err)
 //	     })
-  },
-  methods:{
-  	tabsSwitch: function(tabIndex) {
-        var tabCardCollection = document.querySelectorAll(".tab-card"),
-                        len = tabCardCollection.length;
-
-                    for(var i = 0; i < len; i++) {
-                        tabCardCollection[i].style.display = "none";
-            this.tabsName[i].isActive = false;
-        }
-        this.tabsName[tabIndex].isActive = true;
-        tabCardCollection[tabIndex].style.display = "block";
-    },
-    tab_data(index){
-    	function formatDate(now) {
-					var year=now.getYear();
-					var month=now.getMonth()+1;
-					var date=now.getDate();
-					var hour=now.getHours();
-					var minute=now.getMinutes();
-					var second=now.getSeconds();
-					return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
-			}
-    	if(index==0){
-    		console.log(0);
-    		all_list(this.page).then(res => {   //我的娃娃列表
-			  console.log(res);
-	          if (res.code == 1) {
-	            this.data_all_list=res.data;
-		        	for(var i=0;i<this.data_all_list.length;i++){
-		        		this.data_all_list[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-		        	}
-	          } else {
-	            console.log(err)
-	          }
-	        });
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list=res.data;
+//		all_list(this.page).then(res => {   //我的娃娃列表--全部
+//			  console.log(res);
+//	          if (res.code == 1) {
+//	            this.data_all_list=res.data;
 //		        	for(var i=0;i<this.data_all_list.length;i++){
 //		        		this.data_all_list[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
 //		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    	if(index==1){
-    	  console.log(this.page);
-    		all_list_two(this.page).then(res => {   //我的娃娃列表
+//	          } else {
+//	            console.log(err)
+//	          }
+//	        });
+	    all_list_two(this.page).then(res => {   //我的娃娃列表--寄存中
 			  console.log(res);
+			  console.log(2)
 	          if (res.code == 1) {
 	            this.data_all_list_two=res.data;
 		        	for(var i=0;i<this.data_all_list_two.length;i++){
@@ -477,27 +435,9 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	            console.log(err)
 	          }
 	        });
-//  		console.log(1);
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page,
-//			status:0
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list_two=res.data;
-//		        	for(var i=0;i<this.data_all_list_two.length;i++){
-//		        		this.data_all_list_two[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-//		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    	if(index==2){
-    		all_list_three(this.page).then(res => {   //我的娃娃列表
+	    all_list_three(this.page).then(res => {   //我的娃娃列表--待邮寄
 			  console.log(res);
+			    console.log(3)
 	          if (res.code == 1) {
 	            	this.data_all_list_three=res.data;
 		        	for(var i=0;i<this.data_all_list_three.length;i++){
@@ -507,27 +447,9 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	            console.log(err)
 	          }
 	        });
-//  		console.log(2);
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page,
-//			status:1
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list_three=res.data;
-//		        	for(var i=0;i<this.data_all_list_three.length;i++){
-//		        		this.data_all_list_three[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-//		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    	if(index==3){
-    		all_list_four(this.page).then(res => {   //我的娃娃列表
+	    all_list_four(this.page).then(res => {   //我的娃娃列表--已发货
 			  console.log(res);
+			    console.log(4)
 	          if (res.code == 1) {
 	            	this.data_all_list_four=res.data;
 		        	for(var i=0;i<this.data_all_list_four.length;i++){
@@ -537,27 +459,9 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	            console.log(err)
 	          }
 	        });
-//  		console.log(3);
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page,
-//			status:2
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list_four=res.data;
-//		        	for(var i=0;i<this.data_all_list_four.length;i++){
-//		        		this.data_all_list_four[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-//		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    	if(index==4){
-    		all_list_five(this.page).then(res => {   //我的娃娃列表
+	    all_list_five(this.page).then(res => {   //我的娃娃列表--已转赠
 			  console.log(res);
+			    console.log(5)
 	          if (res.code == 1) {
 	            	this.data_all_list_five=res.data;
 		        	for(var i=0;i<this.data_all_list_five.length;i++){
@@ -567,27 +471,9 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	            console.log(err)
 	          }
 	        });
-//  		console.log(4);
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page,
-//			status:3
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list_five=res.data;
-//		        	for(var i=0;i<this.data_all_list_five.length;i++){
-//		        		this.data_all_list_five[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-//		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    	if(index==5){
-    		all_list_six(this.page).then(res => {   //我的娃娃列表
+	    all_list_six(this.page).then(res => {   //我的娃娃列表--获赠
 			  console.log(res);
+			    console.log(6)
 	          if (res.code == 1) {
 	            	this.data_all_list_six=res.data;
 		        	for(var i=0;i<this.data_all_list_six.length;i++){
@@ -597,30 +483,26 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	            console.log(err)
 	          }
 	        });
-//  		console.log(5);
-//  		this.$post('api/mywawa/api',{      //我的娃娃列表
-//			api_name:'my',
-//			token:this.user_id,
-//			page:this.page,
-//			status:4
-//			}).then((res) => {
-//		        console.log(res);
-//		        if(res.code==1){
-//		        	this.data_all_list_six=res.data;
-//		        	for(var i=0;i<this.data_all_list_six.length;i++){
-//		        		this.data_all_list_six[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-//		        	}
-//		        }
-//		     },err => {
-//		        console.log(err)
-//		     })
-    	}
-    },
+  },
+  methods:{
+  	tabsSwitch: function(tabIndex) {
+  		console.log(1)
+        var tabCardCollection = document.querySelectorAll(".tab-card"),
+                        len = tabCardCollection.length;
+
+                    for(var i = 0; i < len; i++) {
+                        tabCardCollection[i].style.display = "none";
+            this.tabsName[i].isActive = false;
+        }
+        this.tabsName[tabIndex].isActive = true;
+        tabCardCollection[tabIndex].style.display = "block";
+   },
     all(item){
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item.w_id
+    			id:item.w_id,
+    			status:item.status
     		}
     	})
     },
@@ -628,7 +510,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item_one.w_id
+    			id:item_one.w_id,
+    			status:item_one.status
     		}
     	})
     },
@@ -636,7 +519,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item_two.w_id
+    			id:item_two.w_id,
+    			status:item_two.status
     		}
     	})
     },
@@ -644,7 +528,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item_four.w_id
+    			id:item_four.w_id,
+    			status:item_four.status
     		}
     	})
     },
@@ -652,7 +537,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item_five.w_id
+    			id:item_five.w_id,
+    			status:item_five.status
     		}
     	})
     },
@@ -660,7 +546,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	this.$router.push({
     		path:'/wawa_details',
     		query:{
-    			id:item_six.w_id
+    			id:item_six.w_id,
+    			status:item_six.status
     		}
     	})
     },
@@ -966,6 +853,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
         float: left;
         margin-top:15px;
         width:100%;
+        padding-bottom: 50px;
     }
     .cards .tab-card {
         display: none;
@@ -978,6 +866,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     }
     .clearfix {
         zoom: 1;
+        padding-left:10px;
+        box-sizing: border-box;
     }
     .cards .tab-card ul{
     	width:100%;

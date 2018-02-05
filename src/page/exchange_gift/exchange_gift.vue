@@ -35,7 +35,7 @@
 						<img :src="change_data.gfit_img"/>
 						<div class="window_box_header_right">
 							<h3>{{change_data.gfit_name}}</h3>
-							<p><span>{{change_data.convert_num}}个</span>变通娃娃</p>
+							<p><span>{{change_data.convert_num}}个</span>普通娃娃</p>
 						</div>
 					</div>
 					<div class="window_header">你现有可兑换的娃娃：</div>

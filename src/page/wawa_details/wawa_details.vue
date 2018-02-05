@@ -59,17 +59,23 @@
 					<div class="list_left">
 						状态
 					</div>
-					<div class="list_right" v-if="data.status==0">
-						寄存
+					<div class="list_right" v-if="data.status==0" style="color:#F2AFCD;">
+						寄存中
 					</div>
-					<div class="list_right" v-if="data.status==1">
+					<div class="list_right" v-if="data.status==1" style="color:#F2AFCD;">
 						待邮寄
 					</div>
-					<div class="list_right" v-if="data.status==2">
+					<div class="list_right" v-if="data.status==2" style="color:#F5CF96;">
 						已发货
 					</div>
-					<div class="list_right" v-if="data.status==3">
+					<div class="list_right" v-if="data.status==3" style="color:#BDBDBD;">
 						已转赠
+					</div>
+					<div class="list_right" v-if="data.status==4" style="color:#BDBDBD;">
+						获赠
+					</div>
+					<div class="list_right" v-if="data.status==5" style="color:#BDBDBD;">
+						已确认
 					</div>
 				</li>
 				<li v-if="data.status==1 || data.status==2">
@@ -110,10 +116,12 @@
     return {
     	user_id:"54e3bde9a9c25741acd151dd4b957641",
     	data:'',
-    	data_user_name:''
+    	data_user_name:'',
+    	status:''
     }
   },
   created(){
+  	this.status=this.$route.query.status;
   	function formatDate(now) {
 					var year=now.getYear();
 					var month=now.getMonth()+1;
@@ -160,7 +168,7 @@
   },
   methods:{
   	  black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/my_wawa'});
 	  }
 
   }
