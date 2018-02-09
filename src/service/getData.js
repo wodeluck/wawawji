@@ -332,6 +332,14 @@ export const 	recharge_record_list = (page) => fetch('index.php?g=Api&m=Record&a
   page,
 }, 'POST');
 
+// recharge_record  充值记录--上拉加载
+export const 	recharge_record_list_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'recordList',
+  token:getCookie('token'),
+  page,
+  size:10
+}, 'POST');
+
 // bill_details  账单详情
 export const 	bill_details_data = (id) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'recordDetails',
@@ -354,7 +362,16 @@ export const 	my_gifts = () => fetch('index.php?g=Api&m=Record&a=api', {
 export const 	news_data = () => fetch('api/notice/api', {
   api_name:'get_notice_list',
   token:getCookie('token'),
-  page:1
+  page:1,
+  pagesize:10
+}, 'POST');
+
+// personal_center  消息列表--上拉加载
+export const 	news_data_scroll = (page) => fetch('api/notice/api', {
+  api_name:'get_notice_list',
+  token:getCookie('token'),
+  page:page,
+  pagesize:10
 }, 'POST');
 
 //// personal_center  获取个人信息
@@ -401,8 +418,8 @@ export const 	wawa_bills = (page) => fetch('index.php?g=Api&m=Record&a=api', {
 // wawa_bill  充值记录详情----上拉加载
 export const 	wawa_bills_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'bodyBill',
-  token:getCookie('session'),
-  page:page+1,
+  token:getCookie('token'),
+  page:page,
   size:10
 }, 'POST');
 
@@ -417,6 +434,14 @@ export const 	all_list = (page) => fetch('api/mywawa/api', {
   api_name:'my',
   token:getCookie('token'),
   page:page
+}, 'POST');
+
+// my_wawa  我的娃娃列表--上拉加载
+export const 	all_list_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  size:10
 }, 'POST');
 
 // my_wawa  获取娃娃(用于换币)
@@ -455,12 +480,30 @@ export const 	all_list_two = (page) => fetch('api/mywawa/api', {
   status:0
 }, 'POST');
 
+// my_wawa  我的娃娃列表--上拉加载
+export const 	all_list_two_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  status:0,
+  size:10
+}, 'POST');
+
 // my_wawa  我的娃娃列表
 export const 	all_list_three = (page) => fetch('api/mywawa/api', {
   api_name:'my',
   token:getCookie('token'),
   page:page,
   status:1
+}, 'POST');
+
+// my_wawa  我的娃娃列表--上拉加载
+export const 	all_list_three_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  status:1,
+  size:10
 }, 'POST');
 
 // my_wawa  我的娃娃列表
@@ -471,12 +514,30 @@ export const 	all_list_four = (page) => fetch('api/mywawa/api', {
   status:2
 }, 'POST');
 
+// my_wawa  我的娃娃列表--上拉加载
+export const 	all_list_four_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  status:2,
+  size:10
+}, 'POST');
+
 // my_wawa  我的娃娃列表
 export const 	all_list_five = (page) => fetch('api/mywawa/api', {
   api_name:'my',
   token:getCookie('token'),
   page:page,
   status:3
+}, 'POST');
+
+// my_wawa  我的娃娃列表--上拉加载
+export const 	all_list_five_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  status:3,
+  size:10
 }, 'POST');
 
 // my_wawa  我的娃娃列表
@@ -487,8 +548,25 @@ export const 	all_list_six = (page) => fetch('api/mywawa/api', {
   status:4
 }, 'POST');
 
+// my_wawa  我的娃娃列表
+export const 	all_list_six_scroll = (page) => fetch('api/mywawa/api', {
+  api_name:'my',
+  token:getCookie('token'),
+  page:page,
+  status:4,
+  size:10
+}, 'POST');
+
 // game_record  游戏记录
 export const 	game_record_data = (page,size) => fetch('api/mywawa/api', {
+  api_name:'game_history',
+  token:getCookie('token'),
+  page:page,
+  size,
+}, 'POST');
+
+// game_record  游戏记录--上拉加载
+export const 	game_record_data_scroll = (page,size) => fetch('api/mywawa/api', {
   api_name:'game_history',
   token:getCookie('token'),
   page:page,
@@ -530,6 +608,14 @@ export const 	my_gift_data_all = (page) => fetch('index.php?g=Api&m=Record&a=api
   size:10
 }, 'POST');
 
+// my_gift  我的礼品列表  全部--上拉加载
+export const 	my_gift_data_all_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'giftList',
+  token:getCookie('token'),
+  page,
+  size:10
+}, 'POST');
+
 // my_gift  我的礼品列表  寄存中
 export const 	my_gift_data_one = (page) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'giftList',
@@ -539,8 +625,27 @@ export const 	my_gift_data_one = (page) => fetch('index.php?g=Api&m=Record&a=api
   size:10
 }, 'POST');
 
+// my_gift  我的礼品列表  寄存中--上拉加载
+export const 	my_gift_data_one_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'giftList',
+  token:getCookie('token'),
+  type:1,
+  page,
+  size:10
+}, 'POST');
+
+
 // my_gift  我的礼品列表  待邮寄
 export const 	my_gift_data_two = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'giftList',
+  token:getCookie('token'),
+  type:2,
+  page,
+  size:10
+}, 'POST');
+
+// my_gift  我的礼品列表  待邮寄--上拉加载
+export const 	my_gift_data_two_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'giftList',
   token:getCookie('token'),
   type:2,
@@ -557,8 +662,25 @@ export const 	my_gift_data_three = (page) => fetch('index.php?g=Api&m=Record&a=a
   size:10
 }, 'POST');
 
+// my_gift  我的礼品列表  已发货--上拉加载
+export const 	my_gift_data_three_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'giftList',
+  token:getCookie('token'),
+  type:3,
+  page,
+  size:10
+}, 'POST');
+
 // exchange_gift  礼品兑换的列表
 export const 	exchange_gift_data = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'giftConverList',
+  token:getCookie('token'),
+  page,
+  size:10
+}, 'POST');
+
+// exchange_gift  礼品兑换的列表--上拉加载
+export const 	exchange_gift_data_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'giftConverList',
   token:getCookie('token'),
   page,
@@ -575,6 +697,14 @@ export const 	exchange_gift_change_zero = (set_coin,gfit_id) => fetch('index.php
 
 // exchange_record  礼品兑换记录列表
 export const 	exchange_record_data = (page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'convertList',
+  token:getCookie('token'),
+  page,
+  size:10
+}, 'POST');
+
+// exchange_record  礼品兑换记录列表--上拉加载
+export const 	exchange_record_data_scroll = (page) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'convertList',
   token:getCookie('token'),
   page,
@@ -604,16 +734,33 @@ export const 	gift_details_data_list = (id,page) => fetch('index.php?g=Api&m=Rec
   size:10
 }, 'POST');
 
-// gift_details  同一种礼品兑换的记录列表
-export const 	gift_details_show = (id) => fetch('index.php?g=Api&m=Record&a=api', {
+// gift_details  同一种礼品兑换的记录列表--上拉加载
+export const 	gift_details_data_list_scroll = (id,page) => fetch('index.php?g=Api&m=Record&a=api', {
+  api_name:'sameGfitList',
+  token:getCookie('token'),
+  gift_id:id,
+  page,
+  size:10
+}, 'POST');
+
+// gift_details  礼品兑换
+export const 	gift_details_show = (id,onum) => fetch('index.php?g=Api&m=Record&a=api', {
   api_name:'giftConvert',
   token:getCookie('token'),
   gift_id:id,
-  w_list:2
+  w_list:onum
 }, 'POST');
 
 // all_waybill  获取所有运单列表
 export const 	all_waybill_data = (page,pagesize) => fetch('api/waybill/api', {
+  api_name:'waybill_list',
+  token:getCookie('token'),
+  page,
+  pagesize
+}, 'POST');
+
+// all_waybill  获取所有运单列表--上拉加载
+export const 	all_waybill_data_scroll = (page,pagesize) => fetch('api/waybill/api', {
   api_name:'waybill_list',
   token:getCookie('token'),
   page,

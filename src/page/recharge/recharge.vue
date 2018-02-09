@@ -199,9 +199,10 @@ export default {
 			console.log(this.pay_id);
 
 		   this.onumber=index;
-
 	  	},
 	  	pay_qr(){
+	  		console.log(this.is_id);
+	  		console.log(this.pay_id);
 	  		this.pass=!this.pass;
 	  		pay_qr(this.is_id,this.pay_id).then(res => {   //确认支付
 	  			console.log(res)
@@ -255,7 +256,7 @@ export default {
 //		     })
 	  },
 	  black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'});
 	  }
   	}
 }

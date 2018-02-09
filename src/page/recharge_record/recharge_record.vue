@@ -29,12 +29,14 @@
 					</div>
 				</li>
 			</ul>
+			<div class="push_data" v-show="pushData">上拉加载更多</div>
+			<div class="push_data" v-show="pushNone">暂无更多</div>
 		</section>
 	</div>
 </template>
 
 <script>
-import {recharge_record_list} from '../../service/getData';
+import {recharge_record_list,recharge_record_list_scroll} from '../../service/getData';
 	export default { 
    
   data () {
@@ -42,25 +44,32 @@ import {recharge_record_list} from '../../service/getData';
     	user_id:"54e3bde9a9c25741acd151dd4b957641",
     	data:[],
     	page:1,
-    	is_id:''
+    	is_id:'',
+    	num: 10, // 一页显示多少条
+    	pushData:false,
+    	pushNone:false,
     }
   },
   created(){
-  	function formatDate(now) { 
-					var year=now.getYear(); 
-					var month=now.getMonth()+1; 
-					var date=now.getDate(); 
-					var hour=now.getHours(); 
-					var minute=now.getMinutes(); 
-					var second=now.getSeconds(); 
-					return "20"+year+"."+month+"."+date+" "+hour+":"+minute+":"+second; 
-			} 
+  	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000),//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-',
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+        D = date.getDate() + ' ',
+        h = date.getHours() + ':',
+        m = date.getMinutes() + ':',
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+   }
 	recharge_record_list(this.page).then(res => {   //充值记录
 			  console.log(res);
 	          if (res.code == 1) {
 	            	this.data=res.data;
+	            	if(this.data.length==10){
+	            		this.pushData=true;
+	            	}
 		        	for(var i=0;i<this.data.length;i++){
-		        		this.data[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));	
+		        		this.data[i].ctime=timestampToTime(res.data[i].ctime);	
 		        	}
 	          } else {
 	            console.log(err)
@@ -82,6 +91,68 @@ import {recharge_record_list} from '../../service/getData';
 //	     },err => {
 //	        console.log(err)
 //	     })
+		var _self=this;
+  		//获取滚动条当前的位置 
+          function getScrollTop() {
+              var scrollTop = 0;
+              if(document.documentElement && document.documentElement.scrollTop) {
+                  scrollTop = document.documentElement.scrollTop;
+              } else if(document.body) {
+                  scrollTop = document.body.scrollTop;
+              }
+             return scrollTop;
+         }
+ 
+         //获取当前可视范围的高度 
+         function getClientHeight() {
+             var clientHeight = 0;
+             if(document.body.clientHeight && document.documentElement.clientHeight) {
+                 clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+             } else {
+                 clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+             }
+             return clientHeight;
+         }
+ 
+         //获取文档完整的高度 
+         function getScrollHeight() {
+             return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+         }
+  		         //滚动事件触发
+         var tur=true;
+         if(tur==true){
+         window.onscroll = function() {            	
+             if(getScrollTop() + getClientHeight() == getScrollHeight()){
+             	 setTimeout(function(){
+             		_self.pushData=false;
+	             	_self.pushDown=true;
+	             	_self.page++;
+	             	recharge_record_list_scroll(_self.page).then(res => {   	             	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data.push(res.data[i]);
+			          	    	
+			          	    	console.log(_self.data)
+			          	    	_self.pushData=true;
+	             				_self.pushDown=false;
+			          	    	if(res.data.length<_self.num){			          	    		
+									_self.pushNone=true;
+									_self.pushData=false;          					
+									getScrollTop() + getClientHeight() != getScrollHeight();
+									tur=false;
+								}
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			     },500) 
+             }
+         }
+       }
 	
   },
   methods:{
@@ -96,7 +167,7 @@ import {recharge_record_list} from '../../service/getData';
   	 	})
   	 },
 	black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/recharge'});
 	  }
   }
      
@@ -160,5 +231,12 @@ import {recharge_record_list} from '../../service/getData';
 	}
 	li .pay_erro{
 		color:#f00;
+	}
+	.push_data{
+		text-align: center;
+		width:100%;
+		font-size:20px;
+		color:#aaa;
+		height:50px;
 	}
 </style>

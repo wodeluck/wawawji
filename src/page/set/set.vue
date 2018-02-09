@@ -94,7 +94,7 @@ export default{
 	  		this.$router.push({path:'/about_us'});
 	  	},
 		black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'})
 	 	}
 	  },
 	  beforeDestroy() {

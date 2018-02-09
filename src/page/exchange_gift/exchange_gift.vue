@@ -25,6 +25,8 @@
 					</div>
 				</li>
 			</ul>
+			<div class="push_data" v-show="pushData">上拉加载更多</div>
+			<div class="push_data" v-show="pushNone">暂无更多</div>
 		</section>
 		<!--兑换娃娃弹窗-->
 		<div class="wawa_window" v-show="change_coin">
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from '../../service/getData';
+import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero,exchange_gift_data_scroll} from '../../service/getData';
 	export default {   
   data () {
     return {
@@ -84,7 +86,10 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from 
     	page:1,
     	change_coin:false,
     	time:500,
-    	times:1500
+    	times:1500,
+    	num: 10, // 一页显示多少条
+    	pushData:false,
+    	pushNone:false,
     }
   },
   created(){
@@ -92,6 +97,9 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from 
 			  console.log(res);
 	          if (res.code == 1) {
 	             this.data=res.data;
+	             if(res.data.length==10){
+	            		this.pushData=true;
+	            	}
 	          } else {
 	             console.log(err)
 	          }
@@ -110,11 +118,72 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from 
 //	     },err => {
 //	        console.log(err)
 //	     })
-	
+	      var _self=this;
+  		//获取滚动条当前的位置 
+          function getScrollTop() {
+              var scrollTop = 0;
+              if(document.documentElement && document.documentElement.scrollTop) {
+                  scrollTop = document.documentElement.scrollTop;
+              } else if(document.body) {
+                  scrollTop = document.body.scrollTop;
+              }
+             return scrollTop;
+         }
+ 
+         //获取当前可视范围的高度 
+         function getClientHeight() {
+             var clientHeight = 0;
+             if(document.body.clientHeight && document.documentElement.clientHeight) {
+                 clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+             } else {
+                 clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+             }
+             return clientHeight;
+         }
+ 
+         //获取文档完整的高度 
+         function getScrollHeight() {
+             return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+         }
+  		         //滚动事件触发
+         var tur=true;
+         if(tur==true){
+         window.onscroll = function() {            	
+             if(getScrollTop() + getClientHeight() == getScrollHeight()){
+             	 setTimeout(function(){
+             		_self.pushData=false;
+	             	_self.pushDown=true;
+	             	_self.page++;
+	             	exchange_gift_data_scroll(_self.page).then(res => {   	             	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data.push(res.data[i]);
+			          	    	
+			          	    	console.log(_self.data)
+			          	    	_self.pushData=true;
+	             				_self.pushDown=false;
+			          	    	if(res.data.length<_self.num){			          	    		
+									_self.pushNone=true;
+									_self.pushData=false;          					
+									getScrollTop() + getClientHeight() != getScrollHeight();
+									tur=false;
+								}
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			     },500) 
+             }
+         }
+       }
   },
   methods:{
   	black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'});
 	  },
   	record(){
   		this.$router.push({path:'/exchange_record'});
@@ -261,6 +330,7 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from 
 	li .list_left img{
 		border: 1px solid #eee;
 	    width: 90px;
+	    height:76px;
 	    margin-right: 5px;
 	}
 	li .list_right h3{
@@ -468,6 +538,13 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero} from 
     color: #ccc;
     font-size: 18px;
     line-height: 100px;
-    height: 310px;
-}
+    height: 260px;
+   }
+   .push_data{
+		text-align: center;
+		width:100%;
+		font-size:20px;
+		color:#aaa;
+		height:50px;
+	}
 </style>

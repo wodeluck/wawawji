@@ -10,8 +10,6 @@
 			 	<p>{{data.coin}}<span>币</span></p>
 			 </div>
 			 <div class="list">			 	
-			 	<!--<load-more :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :bottomPullText='bottomText'
-    				:auto-fill="false" @bottom-status-change="handleBottomChange" ref="loadmore">-->
 				 	<ul>
 				 		<li v-for="item in data.list">
 				 			<div class="list_left">
@@ -23,16 +21,17 @@
 						 		<span class="add" v-if="item.type=='income'">+{{item.totalcoin}}</span>
 						 	</div>
 				 		</li>
-				 	</ul>	
-			 	<!--</load-more>-->
+				 	</ul>
 			 </div>
 		</section>
-		<!--<div v-show="loading" slot="bottom" class="loading"></div>-->
+		<div class="push_data" v-show="pushData">上拉加载更多</div>
+		<div class="push_data" v-show="pushNone">暂无更多</div>
+		<!--<div class="push_data" v-show="pushDown">正在加载中....</div>-->
 	</div>
 </template>
 
 <script>
-//import pull_refresh from '../components/pull_refresh';  //组件上拉加载。。。
+
 
 import {wawa_bills,wawa_bills_scroll} from '../../service/getData';
 export default { 
@@ -45,37 +44,33 @@ export default {
     	data:'',
     	page:1,  //当前页
     	num: 10, // 一页显示多少条
-        //  上拉加载数据
-                scrollHeight: 0,
-                scrollTop: 0,
-                containerHeight: 0,
-                loading: false,
-                allLoaded: false,
-                bottomText: '上拉加载更多...',
-                bottomStatus: '',
-                pageNo: 1,
-                totalCount: '',
+    	pushData:false,
+    	pushNone:false,
+    	pushDown:false
     }
   },
   created(){
-  	console.log(11%2?2:1)
   	var _self=this;
 //	document.getElementsByTagName("body")[0].style.background="#F5F5F5";
-  	function formatDate(now) { 
-					var year=now.getYear(); 
-					var month=now.getMonth()+1; 
-					var date=now.getDate(); 
-					var hour=now.getHours(); 
-					var minute=now.getMinutes(); 
-					var second=now.getSeconds(); 
-					return "20"+year+"."+month+"."+date+" "+hour+":"+minute+":"+second; 
-			} 
+  	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000),//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-',
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+        D = date.getDate() + ' ',
+        h = date.getHours() + ':',
+        m = date.getMinutes() + ':',
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+   }
 		wawa_bills(this.page).then(res => {   //充值记录详情
 			console.log(res)
           if (res.code == 1) {
             	this.data=res.data;
+            	if(this.data.list.length==10){
+	            		this.pushData=true;
+	            	}
 	        	for(var i=0;i<this.data.list.length;i++){
-	        		this.data.list[i].addtime=formatDate(new Date(parseInt(res.data.list[i].addtime)));	
+	        		this.data.list[i].addtime=timestampToTime(res.data.list[i].addtime);	
 	        	}
           } else {
             console.log(err)
@@ -96,53 +91,70 @@ export default {
 //	     },err => {
 //	        console.log(err)
 //	     })
-	
+		//获取滚动条当前的位置 
+          function getScrollTop() {
+              var scrollTop = 0;
+              if(document.documentElement && document.documentElement.scrollTop) {
+                  scrollTop = document.documentElement.scrollTop;
+              } else if(document.body) {
+                  scrollTop = document.body.scrollTop;
+              }
+             return scrollTop;
+         }
+ 
+         //获取当前可视范围的高度 
+         function getClientHeight() {
+             var clientHeight = 0;
+             if(document.body.clientHeight && document.documentElement.clientHeight) {
+                 clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+             } else {
+                 clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+             }
+             return clientHeight;
+         }
+ 
+         //获取文档完整的高度 
+         function getScrollHeight() {
+             return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+         }
+  		         //滚动事件触发
+         var tur=true;
+         if(tur==true){
+         window.onscroll = function() {            	
+             if(getScrollTop() + getClientHeight() == getScrollHeight()){
+             	 setTimeout(function(){
+             		_self.pushData=false;
+	             	_self.pushDown=true;
+	             	_self.page++;
+	             	 wawa_bills_scroll(_self.page).then(res => {   	             	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data.list){
+			          	    	res.data.list[i].addtime=timestampToTime(res.data.list[i].addtime);	
+			          	    	_self.data.list.push(res.data.list[i]);		          	    	
+			          	    	console.log(_self.data.list)
+			          	    	_self.pushData=true;
+	             				_self.pushDown=false;	             				
+			          	    	if(res.data.list.length<_self.num){			          	    		
+									_self.pushNone=true;
+									_self.pushData=false;          					
+									getScrollTop() + getClientHeight() != getScrollHeight();
+									tur=false;
+								}
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			     },500) 
+             }
+         }
+       }
   },
   methods:{
-  	  /* 下拉加载 */
-        _scroll: function(ev) {
-            ev = ev || event;
-            this.scrollHeight = this.$refs.innerScroll.scrollHeight;
-            this.scrollTop = this.$refs.innerScroll.scrollTop;
-            this.containerHeight = this.$refs.innerScroll.offsetHeight;
-        },
-        loadBottom: function() {
-            this.loading = true;
-            this.page += 1;   // 每次更迭加载的页数
-            if (this.page == this.totalGetCount) {
-                // 当allLoaded = true时上拉加载停止
-                this.loading = false;
-                this.allLoaded = true;
-            }
-           // api.commonApi(后台接口，请求参数) 这个api是封装的axios有不懂的可以看vue2+vuex+axios那篇文章
-           wawa_bills_scroll(this.page).then(res => {   //充值记录详情
-           	  console.log(res)
-	          if (res.code == 1) {
-	          	 this.page++;
-	          	 setTimeout(() => {
-	            	this.data=res.data;
-		        	this.$nextTick(() => {
-	                  	this.loading = false;
-	         	  	})
-		        }, 1000)
-	          } else {
-	            console.log(err)
-	          }
-	       
-//                  .then(res => {
-//              setTimeout(() => {
-// 	         // 要使用的后台返回的数据写在setTimeout里面
-//                this.$nextTick(() => {
-//                  this.loading = false;
-//          	  })
-//          }, 1000)
-         });
-        },
-        handleBottomChange(status) {
-            this.bottomStatus = status;
-        },
         black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'});
 	   }
   }
 }
@@ -191,5 +203,12 @@ export default {
 	}
 	.list ul li .list_right .add{
 		color:#86D8FE;
+	}
+	.push_data{
+		text-align: center;
+		width:100%;
+		font-size:20px;
+		color:#aaa;
+		height:50px;
 	}
 </style>

@@ -88,7 +88,7 @@ export default {
   	  	this.$router.push({path:'/add_address'});
   	  },
   	  black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/my_gift'});
 	  }
   }
 }
@@ -96,7 +96,7 @@ export default {
 
 <style scoped>
 	section{
-		margin-top:40px;
+		margin-top:50px;
 	}
 	header .header_right img{
 		width:20px;
@@ -105,7 +105,7 @@ export default {
 	}	
 	.speack{
 		padding: 0 10px;
-	    margin-top: 20px;
+	    margin-top: 40px;
 	    width: 100%;
 	    box-sizing: border-box;
 	}

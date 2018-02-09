@@ -74,7 +74,7 @@
           <div class="ctrlm_top" @click="operatorMachine" id="up"></div>
           <div class="ctrlm_bottom" @click="operatorMachine" id="down"></div>
         </div>
-        <div class="ctrlr" @click="operatorMachine" id="grab"></div>
+        <div class="ctrlr" @click.once="operatorMachine" id="grab"></div>
       </div>
     </section>
     <div class="tapWrap">
@@ -135,7 +135,6 @@
                    :show-hide-on-click="showHideOnClickFail"></tip-grap-fail>
     <wxshare class="nonebg showT" :show-hide-on-click="wxmask"></wxshare>
   </div>
-  <loading v-model="isLoading"></loading>
 </template>
 <script>
   import headTop from '../../components/header/head';

@@ -60,7 +60,8 @@ export default {
   	  			addr_id:item.addr_id,
   	  			name:item.username,
   	  			phone:item.mobile,
-  	  			addr:item.addr
+  	  			addr:item.addr,
+  	  			addr_info:item.addr_info
   	  		}
   	  	});
   	  },

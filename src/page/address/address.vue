@@ -36,7 +36,7 @@ export default {
   	  	this.$router.push({path:'/add_address'});
   	  },
   	  black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'})
 	  }
   }
 }

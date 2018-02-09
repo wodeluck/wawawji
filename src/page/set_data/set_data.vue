@@ -158,7 +158,7 @@
           data.append('file', input.files[0]);
           data.append('fields',JSON.stringify(namesex));
           data.append('uid',this.userInfo.user_id);
-          data.append('token',getCookie('session'));
+          data.append('token',getCookie('token'));
           try{
             this.$vux.loading.show({
               text: '请稍等...'
@@ -247,7 +247,7 @@
         document.getElementsByTagName("body")[0].style.background="#F5F5F5";
       },
       black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'});
 	 		}
     },
     computed:{

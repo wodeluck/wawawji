@@ -5,7 +5,7 @@
       <h2>我的邀请码</h2>
     </header>
     <section>
-      <div class="input" v-show="hidden_code">
+      <div class="input" v-show="hidden_code" v-if="data_user.is_code==''">
         <input type="text" placeholder="请输入邀请码" v-model="code"/>
         <button @click="exchange">兑换</button>
       </div>
@@ -21,13 +21,13 @@
           <p class="old_two"></p>
         </div>
         <div class="weixin">
-          <div class="weixin_left" @click="wxtask=true">
+          <div class="weixin_left" @click="wxtask=!wxtask">
             <a>
               <img :src="require('assets/img/weixin_person.png')">
               <p>微信好友</p>
             </a>
           </div>
-          <div class="weixin_right" @click="wxtask=true">
+          <div class="weixin_right" @click="wxtask=!wxtask">
             <a>
               <img :src="require('assets/img/weixin_friend.png')">
               <p>朋友圈</p>
@@ -35,32 +35,56 @@
           </div>
         </div>
       </div>
-      <wxshare class="nonebg" :show-hide-on-click="wxtask"></wxshare>
+      <wxshare class="nonebg showT" :show-hide-on-click="wxtask"></wxshare>
+      <tip-grap-success></tip-grap-success>
     </section>
   </div>
 
 </template>
 
 <script>
-  import {my_code_data, my_rule_data, convert_code} from '../../service/getData';
+  import {my_code_data, my_rule_data, convert_code,getUserInfo,ponson} from '../../service/getData';
   import wxshare from '../../components/common/wxshare';
+  import tipGrapSuccess from '../../components/common/tipGrapSuccess';
   export default {
     data() {
       return {
-        user_id: "54e3bde9a9c25741acd151dd4b957641",
+        user_id: "",
         data: "",
         rule_data: "",
         code: "",
         wxtask:false,
-        hidden_code:true
+        hidden_code:true,
+        data_user:"",
+        data_user_name:""
       }
     },
     components:{
-      wxshare
+      wxshare,
+      tipGrapSuccess
     },
     created() {
+    	ponson().then(res => {   //我的娃娃上面个人信息接口
+			
+          if (res.code == 1) {
+            this.data_user_name=res.data;
+            this.user_id=res.data.user_id;
+            console.log(this.user_id)
+            getUserInfo(this.user_id).then(res => {   // 获取个人信息
+				console.log(res);
+		          if (res.code == 1) {
+		             this.data_user=res.data;
+		          } else {
+		            console.log(err)
+		          }
+		        });
+          } else {
+            console.log(err)
+          }
+        });
+
       my_code_data().then(res => {   //获取我的邀请码
-        console.log(res);
+
         if (res.code == 1) {
           this.data = res.data;
         } else {
@@ -68,7 +92,7 @@
         }
       });
       my_rule_data().then(res => {   //获取填写邀请码规则信息
-        console.log(res);
+
         if (res.code == 1) {
           this.rule_data = res.data;
         } else {
@@ -111,7 +135,7 @@
         })
       },
 			 black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'});
 	  		}
     }
 
@@ -138,7 +162,7 @@
     border: 2px dashed #9DDFFF;
     @include font-dpr(18px);
     letter-spacing: 1px;
-    margin-right: 15px;
+    margin-right: 10px;
     @include px2rem(text-indent,30);
     @include px2rem(border-radius,40);
   }

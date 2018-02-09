@@ -8,6 +8,7 @@
 				<span @click="change">兑换</span>
 			</div>
 		</header>
+		
 		<section>
 			<!--banner 信息部分-->
 			<div class="banner">
@@ -150,7 +151,7 @@
 </template>
 
 <script>
-import {my_gift_number,my_gift_data_all,my_gift_data_one,my_gift_data_two,my_gift_data_three} from '../../service/getData';
+import {my_gift_data_three_scroll,my_gift_data_two_scroll,my_gift_data_one_scroll,my_gift_data_all_scroll,my_gift_number,my_gift_data_all,my_gift_data_one,my_gift_data_two,my_gift_data_three} from '../../service/getData';
 	export default {  
   data () {
     return {
@@ -188,15 +189,16 @@ import {my_gift_number,my_gift_data_all,my_gift_data_one,my_gift_data_two,my_gif
     }
   },
   created(){
-  	function formatDate(now) { 
-					var year=now.getYear(); 
-					var month=now.getMonth()+1; 
-					var date=now.getDate(); 
-					var hour=now.getHours(); 
-					var minute=now.getMinutes(); 
-					var second=now.getSeconds(); 
-					return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
-			} 
+  function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000),//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-',
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+        D = date.getDate() + ' ',
+        h = date.getHours() + ':',
+        m = date.getMinutes() + ':',
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+   }
 	my_gift_number().then(res => {   //用户礼品兑换次数
 			  console.log(res);
 	          if (res.code == 1) {
@@ -221,7 +223,7 @@ import {my_gift_number,my_gift_data_all,my_gift_data_one,my_gift_data_two,my_gif
 	          if (res.code == 1) {
 	             this.data_all=res.data;
 	        	for(var i=0;i<this.data_all.length;i++){
-	        		this.data_all[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));	
+	        		this.data_all[i].ctime=timestampToTime(res.data[i].ctime);	
 	        	}
 	          } else {
 	             console.log(err)
@@ -248,7 +250,7 @@ my_gift_data_one(this.page).then(res => {   //我的礼品列表  寄存中
 	          if (res.code == 1) {
 	             this.data_one=res.data;
 	        	for(var i=0;i<this.data_one.length;i++){
-	        		this.data_one[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));	
+	        		this.data_one[i].ctime=timestampToTime(res.data[i].ctime);	
 	        	}
 	          } else {
 	             console.log(err)
@@ -276,7 +278,7 @@ my_gift_data_two(this.page).then(res => {   //我的礼品列表  待邮寄
 	          if (res.code == 1) {
 	             this.data_two=res.data;
 	        	for(var i=0;i<this.data_two.length;i++){
-	        		this.data_two[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));	
+	        		this.data_two[i].ctime=timestampToTime(res.data[i].ctime);	
 	        	}
 	          } else {
 	             console.log(err)
@@ -304,7 +306,7 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
 	          if (res.code == 1) {
 	             this.data_three=res.data;
 	        	for(var i=0;i<this.data_three.length;i++){
-	        		this.data_three[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));	
+	        		this.data_three[i].ctime=timestampToTime(res.data[i].ctime);	
 	        	}
 	          } else {
 	             console.log(err)
@@ -327,6 +329,105 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
 //	     },err => {
 //	        console.log(err)
 //	    })
+
+					  var _self=this;
+  		//获取滚动条当前的位置 
+          function getScrollTop() {
+              var scrollTop = 0;
+              if(document.documentElement && document.documentElement.scrollTop) {
+                  scrollTop = document.documentElement.scrollTop;
+              } else if(document.body) {
+                  scrollTop = document.body.scrollTop;
+              }
+             return scrollTop;
+         }
+ 
+         //获取当前可视范围的高度 
+         function getClientHeight() {
+             var clientHeight = 0;
+             if(document.body.clientHeight && document.documentElement.clientHeight) {
+                 clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+             } else {
+                 clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+             }
+             return clientHeight;
+         }
+ 
+         //获取文档完整的高度 
+         function getScrollHeight() {
+             return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+         }
+  		         //滚动事件触发
+         var tur=true;
+         if(tur==true){
+         window.onscroll = function() {            	
+             if(getScrollTop() + getClientHeight() == getScrollHeight()){
+             	 setTimeout(function(){
+	             	_self.page++;
+	             	my_gift_data_all_scroll(_self.page).then(res => {     // 全部	             	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all)
+			          	    	if(res.data.length<_self.num){			          	    						
+									getScrollTop() + getClientHeight() != getScrollHeight();
+									tur=false;
+								}
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        }); 
+			        
+			       my_gift_data_one_scroll(_self.page).then(res => {   	     //  寄存中        	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_one.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_one)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        }); 
+			        
+			        my_gift_data_two_scroll(_self.page).then(res => {   	     //  待邮寄        	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_two.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_two)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        
+			        my_gift_data_three_scroll(_self.page).then(res => {   	     //  已发货       	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_three.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_three)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        
+			     },500) 
+             }
+         }
+       }
   },
   methods:{
   	  tabsSwitch: function(tabIndex) {  
@@ -471,7 +572,7 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
     	})
     },
      black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'})
 	 }
   }
 }

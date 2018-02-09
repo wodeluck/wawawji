@@ -33,17 +33,16 @@ export default {
     }
   },
   created(){
-  	console.log(22)
-  	console.log(this.$route.query.id);
-  	function formatDate(now) {
-					var year=now.getYear();
-					var month=now.getMonth()+1;
-					var date=now.getDate();
-					var hour=now.getHours();
-					var minute=now.getMinutes();
-					var second=now.getSeconds();
-					return "20"+year+"."+month+"."+date+" "+hour+":"+minute+":"+second;
-			}
+  	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000),//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-',
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+        D = date.getDate() + ' ',
+        h = date.getHours() + ':',
+        m = date.getMinutes() + ':',
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+   }
 //	this.$post('api/notice/api',{      //消息详情
 //			api_name:'get_notice_info',
 //			token:this.user_id,
@@ -61,7 +60,7 @@ export default {
 			  console.log(res);
 	          if (res.code == 1) {
 	            	this.data=res.data;
-		        	this.data.ctime=formatDate(new Date(parseInt(res.data.ctime)));
+		        	this.data.ctime=timestampToTime(res.data.ctime);
 	          } else {
 	            console.log(err)
 	          }
@@ -70,7 +69,7 @@ export default {
   },
   methods:{
 	 black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/news_center'});
 	 }
 
   }

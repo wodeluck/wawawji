@@ -41,7 +41,7 @@ export default{
   },
   methods:{
   	black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'})
 	  },
   	btn(){
   		console.log(1);

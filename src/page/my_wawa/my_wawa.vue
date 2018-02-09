@@ -42,7 +42,7 @@
 	            </ul>
 	            <div class="cards">
 	            	<!--全部-->
-	                <div class="tab-card" style="display: block;">
+	                <div class="tab-card" style="display: block;" id="card_one">
 	                	<ul v-if="data_all_list.length>0">
 	                		<li v-for="item in data_all_list" @click="all(item)">
 	                			<div class="list_top">
@@ -58,7 +58,7 @@
 	                					<source :src="item.video" type="video/mp4"></source>
 	                				</video>-->
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present" v-if="item.is_receive==1">赠</div>
+	                				<div class="present" v-if="item.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item.giftname}}</h3>
@@ -68,16 +68,16 @@
 	                			</div>
 	                		</li>
 	                	</ul>
-	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	<div v-else class="null_data">--暂无娃娃--</div>	                	
 	                </div>
-	                <div class="tab-card">
+	                <div class="tab-card" id="card_two">
 	                	<ul v-if="data_all_list_two.length>0">
 	                		<li v-for="item_one in data_all_list_two" @click="one(item_one)">
 	                			<div class="list_top">
 	                				<label class="in" v-if="item_one.status==0">寄存中</label>
 	                				<img class="wawa" :src="item_one.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present"  v-if="item_one.is_receive==1">赠</div>
+	                				<div class="present" v-if="item_one.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item_one.giftname}}</h3>
@@ -88,8 +88,9 @@
 	                		</li>
 	                	</ul>
 	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	
 	                </div>
-	                <div class="tab-card">
+	                <div class="tab-card" id="card_three">
 	                	<ul v-if="data_all_list_three.length>0">
 	                		<li v-for="item_two in data_all_list_three" @click="two(item_two)">
 	                			<div class="list_top">
@@ -98,7 +99,7 @@
 
 	                				<img class="wawa" :src="item_two.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present"  v-if="item_two.is_receive==1">赠</div>
+	                				<div class="present" v-if="item_two.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item_two.giftname}}</h3>
@@ -109,8 +110,9 @@
 	                		</li>
 	                	</ul>
 	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	
 	                </div>
-	                <div class="tab-card">
+	                <div class="tab-card" id="card_four">
 	                	<ul v-if="data_all_list_four.length>0">
 	                		<li v-for="item_four in data_all_list_four" @click="four(item_four)">
 	                			<div class="list_top">
@@ -119,7 +121,7 @@
 
 	                				<img class="wawa" :src="item_four.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present"  v-if="item_four.is_receive==1">赠</div>
+	                				<div class="present" v-if="item_four.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item_four.giftname}}</h3>
@@ -130,16 +132,16 @@
 	                		</li>
 	                	</ul>
 	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	
 	                </div>
-	                <div class="tab-card">
+	                <div class="tab-card" id="card_five">
 	                	<ul v-if="data_all_list_five.length>0">
 	                		<li v-for="item_five in data_all_list_five" @click="five(item_five)">
 	                			<div class="list_top">
-
 	                				<label class="in_three" v-if="item_five.status==3">已转赠</label>
 	                				<img class="wawa" :src="item_five.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present"  v-if="item_five.is_receive==1">赠</div>
+	                				<div class="present"  v-if="item_five.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item_five.giftname}}</h3>
@@ -150,15 +152,16 @@
 	                		</li>
 	                	</ul>
 	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	
 	                </div>
-	                <div class="tab-card">
+	                <div class="tab-card" id="card_six">
 	                	<ul v-if="data_all_list_six.length>0">
-	                		<li v-for="item_six in data_all_list_six" @click="six(item_six)">
+	                		<li v-for="item_six in data_all_list_six" @click="six(item_six)"  v-if="item_six.is_receive>0">
 	                			<div class="list_top">
-	                				<label class="in_three" v-if="item_six.status==4">获赠</label>
+	                				<label class="in" v-if="item_six.status==0">寄存中</label>
 	                				<img class="wawa" :src="item_six.gifticon">
 	                				<!--<img class="video" :src="require('assets/img/video.png')">-->
-	                				<div class="present"  v-if="item_six.is_receive==1">赠</div>
+	                				<div class="present"  v-if="item_six.is_receive>0">赠</div>
 	                			</div>
 	                			<div class="list_bottom">
 	                				<h3>{{item_six.giftname}}</h3>
@@ -169,6 +172,7 @@
 	                		</li>
 	                	</ul>
 	                	<div v-else class="null_data">--暂无娃娃--</div>
+	                	
 	                </div>
 	            </div>
 	        </div>
@@ -247,7 +251,7 @@
 
 
 <script>
-import {my_wawa_mail,my_wawa_change_coin,use_name,all_list,wawa_coins,wawa_mails,all_list_two,all_list_three,all_list_four,all_list_five,all_list_six} from '../../service/getData';
+import {all_list_six_scroll,all_list_five_scroll,all_list_four_scroll,all_list_three_scroll,all_list_two_scroll,all_list_scroll,my_wawa_mail,my_wawa_change_coin,use_name,all_list,wawa_coins,wawa_mails,all_list_two,all_list_three,all_list_four,all_list_five,all_list_six} from '../../service/getData';
 export default {
   data () {
     return {
@@ -299,19 +303,21 @@ export default {
 	    	mail_null:false,
 	    	time:500,
 	    	times:1500,
-	    	all_wawa_pla:0
+	    	all_wawa_pla:0,
+	    	num: 10, // 一页显示多少条
     }
   },
   created(){
-		function formatDate(now) {
-					var year=now.getYear();
-					var month=now.getMonth()+1;
-					var date=now.getDate();
-					var hour=now.getHours();
-					var minute=now.getMinutes();
-					var second=now.getSeconds();
-					return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
-			}
+	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000),//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-',
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+        D = date.getDate() + ' ',
+        h = date.getHours() + ':',
+        m = date.getMinutes() + ':',
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+   }
 		use_name().then(res => {   //我的娃娃上面个人信息接口
 			
           if (res.code == 1) {
@@ -338,8 +344,8 @@ export default {
           if (res.code == 1) {
             this.data_all_list=res.data;
 	        	for(var i=0;i<this.data_all_list.length;i++){
-	        		this.data_all_list[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-	        	}
+	        		this.data_all_list[i].ctime=timestampToTime(res.data[i].ctime);
+	        	}	        	
           } else {
             console.log(err)
           }
@@ -429,8 +435,8 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	          if (res.code == 1) {
 	            this.data_all_list_two=res.data;
 		        	for(var i=0;i<this.data_all_list_two.length;i++){
-		        		this.data_all_list_two[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
-		        	}
+		        		this.data_all_list_two[i].ctime=timestampToTime(res.data[i].ctime);
+		        	}		     
 	          } else {
 	            console.log(err)
 	          }
@@ -441,7 +447,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	          if (res.code == 1) {
 	            	this.data_all_list_three=res.data;
 		        	for(var i=0;i<this.data_all_list_three.length;i++){
-		        		this.data_all_list_three[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
+		        		this.data_all_list_three[i].ctime=timestampToTime(res.data[i].ctime);
 		        	}
 	          } else {
 	            console.log(err)
@@ -453,7 +459,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	          if (res.code == 1) {
 	            	this.data_all_list_four=res.data;
 		        	for(var i=0;i<this.data_all_list_four.length;i++){
-		        		this.data_all_list_four[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
+		        		this.data_all_list_four[i].ctime=timestampToTime(res.data[i].ctime);
 		        	}
 	          } else {
 	            console.log(err)
@@ -465,7 +471,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	          if (res.code == 1) {
 	            	this.data_all_list_five=res.data;
 		        	for(var i=0;i<this.data_all_list_five.length;i++){
-		        		this.data_all_list_five[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
+		        		this.data_all_list_five[i].ctime=timestampToTime(res.data[i].ctime);
 		        	}
 	          } else {
 	            console.log(err)
@@ -477,16 +483,145 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 	          if (res.code == 1) {
 	            	this.data_all_list_six=res.data;
 		        	for(var i=0;i<this.data_all_list_six.length;i++){
-		        		this.data_all_list_six[i].ctime=formatDate(new Date(parseInt(res.data[i].ctime)));
+		        		this.data_all_list_six[i].ctime=timestampToTime(res.data[i].ctime);
 		        	}
 	          } else {
 	            console.log(err)
 	          }
 	        });
+	      
+	      	  var _self=this;
+  		//获取滚动条当前的位置 
+          function getScrollTop() {
+              var scrollTop = 0;
+              if(document.documentElement && document.documentElement.scrollTop) {
+                  scrollTop = document.documentElement.scrollTop;
+              } else if(document.body) {
+                  scrollTop = document.body.scrollTop;
+              }
+             return scrollTop;
+         }
+ 
+         //获取当前可视范围的高度 
+         function getClientHeight() {
+             var clientHeight = 0;
+             if(document.body.clientHeight && document.documentElement.clientHeight) {
+                 clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+             } else {
+                 clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+             }
+             return clientHeight;
+         }
+ 
+         //获取文档完整的高度 
+         function getScrollHeight() {
+             return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+         }
+  		         //滚动事件触发
+         var tur=true;
+         if(tur==true){
+         window.onscroll = function() {            	
+             if(getScrollTop() + getClientHeight() == getScrollHeight()){
+             	 setTimeout(function(){
+	             	_self.page++;
+	             	all_list_scroll(_self.page).then(res => {     // 全部	             	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list)
+			          	    	if(res.data.length<_self.num){			          	    						
+									getScrollTop() + getClientHeight() != getScrollHeight();
+									tur=false;
+								}
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        }); 
+			        
+			       all_list_two_scroll(_self.page).then(res => {   	     //  寄存中        	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list_two.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list_two)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        }); 
+			        
+			        all_list_three_scroll(_self.page).then(res => {   	     //  待邮寄        	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list_three.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list_three)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        
+			        all_list_four_scroll(_self.page).then(res => {   	     //  已发货       	 	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list_four.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list_four)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        
+			         all_list_five_scroll(_self.page).then(res => {   	     //  已转赠	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list_five.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list_five)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        
+			         all_list_six_scroll(_self.page).then(res => {   	     //  获赠	
+	             	 	console.log(res);
+			          if (res.code == 1) {				          		
+			          	    for(var i in res.data){
+			          	    	res.data[i].ctime=timestampToTime(res.data[i].ctime);				
+			          	    	_self.data_all_list_six.push(res.data[i]);			          	    	
+			          	    	console.log(_self.data_all_list_six)			          	    	
+			          	    }
+			          	    
+			          } else {
+			            console.log(err)
+			          }
+			        });  
+			        			        
+			    },500) 
+             }
+         }
+       }
+	    
+	        
   },
   methods:{
   	tabsSwitch: function(tabIndex) {
-  		console.log(1)
+  		console.log(tabIndex)
         var tabCardCollection = document.querySelectorAll(".tab-card"),
                         len = tabCardCollection.length;
 
@@ -583,7 +718,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
 		this.$router.push({path:'/exchange_gift'})
     },
     black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/personal_center'})
 	},
     set_coin(){
       console.log(this.wawa_coin);
@@ -707,6 +842,7 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
       }
       this.all_wawa_pla = all_wawa_pla;
     }
+   
   }
 }
 </script>
@@ -1117,4 +1253,11 @@ wawa_mails().then(res => {   //获取娃娃(用于邮寄)
     	line-height: 100px;
     	height:310px;
     }
+    .push_data{
+		text-align: center;
+		width:100%;
+		font-size:20px;
+		color:#aaa;
+		height:50px;
+	}
 </style>

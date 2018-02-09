@@ -85,7 +85,8 @@ export default {
 	        });
   	  },
   	  black_go(){
-	  		this.$router.go(-1)
+	  		
+	  		this.$router.push({path:'/my_wawa'});
 	  },
 	  add(){
   	  	this.$router.push({path:'/add_address'});

@@ -85,7 +85,7 @@ about_us_data().then(res => {   //获取我的邀请码
 	  		this.$router.push({path:'/protocol'}); 	
 	  	},
 	  	black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/set'})
 	  	}
 	  },
 	  beforeDestroy() {

@@ -3,6 +3,7 @@
     <x-dialog v-model="showDonationSuccess" class="dialog-demo" @on-hide="hide" hide-on-blur>
       <div class="img-box">
         <img src="../../images/bg_yes@2x.png" style="max-width:100%">
+        <p class="donationSuc">赠送娃娃成功</p>
       </div>
     </x-dialog>
   </div>
@@ -76,5 +77,10 @@
     color: white;
     @include font-dpr(14px);
     @include px2rem(margin-top, 32);
+  }
+  .donationSuc{
+    color: white;
+    @include font-dpr(15px);
+    text-align: center;
   }
 </style>

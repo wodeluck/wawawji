@@ -114,6 +114,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
  		 this.phone=this.$route.query.phone;
  		 this.is_id=this.$route.query.addr_id;
  		 this.addr=this.$route.query.addr;
+ 		 this.address_text=this.$route.query.addr_info;
     },
     methods: {
      onMyAddressChange(picker, values) {
@@ -134,7 +135,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
       	this.address_window=!this.address_window;
       },
       black_go(){
-	  		this.$router.go(-1)
+	  		this.$router.push({path:'/address'})
 	  },
       text_btn(){
       	var _self=this;

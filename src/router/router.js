@@ -2,10 +2,10 @@ import App from '../App'
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home');
 const room = r => require.ensure([], () => r(require('../page/room/room')), 'room');
-const userList = r => require.ensure([], () => r(require('../page/userList/userList')), 'userList');
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login');
 const register = r => require.ensure([], () => r(require('../page/register/register')), 'register');
 const gameService = r => require.ensure([], () => r(require('../page/gameService/gameService')), 'gameService');
+const userList = r => require.ensure([], () => r(require('../page/userList/userList')), 'userList');
 const forgetPass = r => require.ensure([], () => r(require('../page/forgetPass/forgetPass')), 'forgetPass');
 const showConFromBanner = r => require.ensure([], () => r(require('../page/showConFromBanner/showConFromBanner')), 'showConFromBanner');
 const userDetailInfo = r => require.ensure([], () => r(require('../page/userList/children/userDetailInfo')), 'userDetailInfo');
