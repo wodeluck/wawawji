@@ -77,6 +77,7 @@ router.beforeEach(function (to, from, next) {
   }
 });
 
+
 router.afterEach(function (to) {
   store.commit('updateLoadingStatus', {isLoading: false})
 });

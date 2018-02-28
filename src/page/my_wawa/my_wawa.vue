@@ -63,7 +63,7 @@
 	                			<div class="list_bottom">
 	                				<h3>{{item.giftname}}</h3>
 	                				<p>{{item.ctime}}</p>
-	                				<p v-if="item.conv==1">可兑换游戏币：{{item.needcoin}}</p>
+	                				<p v-if="item.conv==1 && item.status==(0||4)">可兑换游戏币：{{item.needcoin}}</p>
 	                				<p v-if="item.conv==0 && item.status==(1||2||3)" class="del">不可兑换游戏币：{{item.needcoin}}</p>
 	                			</div>
 	                		</li>
@@ -82,7 +82,7 @@
 	                			<div class="list_bottom">
 	                				<h3>{{item_one.giftname}}</h3>
 	                				<p>{{item_one.ctime}}</p>
-	                				<p v-if="item_one.conv==1">可兑换游戏币：{{item_one.needcoin}}</p>
+	                				<p v-if="item_one.conv==1 && item_one.status==(0||4)">可兑换游戏币：{{item_one.needcoin}}</p>
 	                				<!--<p v-if="item_one.conv==0" class="del">不可兑换游戏币：{{item_one.needcoin}}</p>-->
 	                			</div>
 	                		</li>
@@ -166,7 +166,7 @@
 	                			<div class="list_bottom">
 	                				<h3>{{item_six.giftname}}</h3>
 	                				<p>{{item_six.ctime}}</p>
-	                				<p v-if="item_six.conv==1">可兑换游戏币：{{item_six.needcoin}}</p>
+	                				<p v-if="item_six.conv==1 && item_six.status==(0||4)">可兑换游戏币：{{item_six.needcoin}}</p>
 	                				<!--<p v-if="item_six.conv==0" class="del">不可兑换游戏币：{{item_six.needcoin}}</p>-->
 	                			</div>
 	                		</li>

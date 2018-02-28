@@ -9,11 +9,7 @@ const userList = r => require.ensure([], () => r(require('../page/userList/userL
 const forgetPass = r => require.ensure([], () => r(require('../page/forgetPass/forgetPass')), 'forgetPass');
 const showConFromBanner = r => require.ensure([], () => r(require('../page/showConFromBanner/showConFromBanner')), 'showConFromBanner');
 const userDetailInfo = r => require.ensure([], () => r(require('../page/userList/children/userDetailInfo')), 'userDetailInfo');
-
-
-
-
-
+const add_add_address = r => require.ensure([], () => r(require('../page/add_add_address/add_add_address')), 'add_add_address');
 
 const wawa_change_address = r => require.ensure([], () => r(require('../page/wawa_change_address/wawa_change_address')), 'wawa_change_address');
 const news_center = r => require.ensure([], () => r(require('../page/news_center/news_center')), 'news_center');
@@ -30,6 +26,7 @@ const game_record = r => require.ensure([], () => r(require('../page/game_record
 const game_details = r => require.ensure([], () => r(require('../page/game_details/game_details')), 'game_details');
 const complain = r => require.ensure([], () => r(require('../page/complain/complain')), 'complain');
 const exchange_gift = r => require.ensure([], () => r(require('../page/exchange_gift/exchange_gift')), 'exchange_gift');
+const exchange_gift_two = r => require.ensure([], () => r(require('../page/exchange_gift_two/exchange_gift_two')), 'exchange_gift_two');
 const exchange_record = r => require.ensure([], () => r(require('../page/exchange_record/exchange_record')), 'exchange_record');
 const gift_details = r => require.ensure([], () => r(require('../page/gift_details/gift_details')), 'gift_details');
 const my_gift = r => require.ensure([], () => r(require('../page/my_gift/my_gift')), 'my_gift');
@@ -49,6 +46,8 @@ const set_data = r => require.ensure([], () => r(require('../page/set_data/set_d
 const question = r => require.ensure([], () => r(require('../page/question/question')), 'question');
 const protocol = r => require.ensure([], () => r(require('../page/protocol/protocol')), 'protocol');
 const notice = r => require.ensure([], () => r(require('../page/notice/notice')), 'notice');
+const none_pic_address = r => require.ensure([], () => r(require('../page/none_pic_address/none_pic_address')), 'none_pic_address');
+
 
 export default [{
   path: '/',
@@ -160,6 +159,10 @@ export default [{
       component: exchange_gift
     },
     {
+      path: '/exchange_gift_two',         //兑换礼品
+      component: exchange_gift_two
+    },
+    {
       path: '/exchange_record',         //兑换记录
       component: exchange_record
     },
@@ -203,6 +206,10 @@ export default [{
       path: '/add_address',         //新增收货地址
       component: add_address
     },
+     {
+      path: '/add_add_address',         //新增收货地址
+      component: add_add_address
+    },
     {
       path: '/set_address',         //编辑收货地址
       component: set_address
@@ -234,6 +241,10 @@ export default [{
     {
       path: '/pull_refresh',         //上拉加载....
       component: pull_refresh
+    },
+    {
+      path: '/none_pic_address',         //上拉加载....
+      component: none_pic_address
     }
   ]
 }]

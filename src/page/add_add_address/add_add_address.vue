@@ -1,26 +1,23 @@
 <template>
 	<div class="main">
 		<header>
-			<a  @click.prevent="$router.go(-1)"><img :src="require('assets/img/header_back.png')"></a>
-			<h2>编辑收货地址</h2>
+			<a  @click="black_go"><img :src="require('assets/img/header_back.png')"></a>
+			<h2>新增收货地址</h2>
 		</header>
 		<section>
 			<ul>
 				<li>
 					<p>收货人</p>
 					<input type="text" placeholder="请输入收货人姓名" v-model="oname" maxlength="5"/>
+					<div class="windon_show" v-show="text_name">请输入收货人姓名</div>
 				</li>
 				<li>
 					<p>联系方式</p>
-					<input type="tel" placeholder="请输入联系方式" v-model="phone"  maxlength="11"/>
+					<input type="tel" placeholder="请输入联系方式" v-model="phone" maxlength="11"/>
 					<div class="windon_show" v-show="text_phone">请输入联系方式</div>
 					<div class="windon_show" v-show="text_phone_tel">请输入正确手机号</div>
 				</li>
-				<li v-show="oddr" @click="city">
-					<p>省/市/区/县</p>
-					<div class="input_right">{{addr}}<img :src="require('assets/img/right.png')"></div>
-				</li>
-				<li @click="city"  v-show="!oddr">
+				<li @click="city">
 					<p>省/市/区/县</p>
 					<div class="input_right" style="font-size:14px;">
 						{{myAddressProvince}} {{myAddressCity}} {{myAddresscounty}}
@@ -32,6 +29,7 @@
 					<input type="text" placeholder="请输入收货人详细地址" v-model="address_text"/>
 					<div class="windon_show" v-show="text_text">请输入详细地址</div>
 				</li>
+
 			</ul>
 		</section>
 		<div class="btn" @click="text_btn">保存</div>
@@ -41,7 +39,7 @@
 				<p>选择地址</p>
 				<mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
 				<div class="btn_city" @click="window_qr">确认</div>
-				<p class="line_top"></p>
+			    <p class="line_top"></p>
 			    <p class="line_bottom"></p>
 			</div>
 		</div>
@@ -51,8 +49,8 @@
 </template>
 
 <script>
-import {set_address_btn} from '../../service/getData';
-import { Picker } from 'mint-ui';
+import {add_address_list} from '../../service/getData';
+import {Picker} from 'mint-ui';
 import myaddress from 'assets/js/address3.json'     //引入省市区数据
   export default {
     name: '',
@@ -105,16 +103,14 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
         times:1000,
         text_phone_tel:false,
         user_id:"54e3bde9a9c25741acd151dd4b957641",
-        addr:"",
-        oddr:true
+        oaddr:''
       }
     },
-    created(){
+    created() {
  		 this.oname=this.$route.query.name;
  		 this.phone=this.$route.query.phone;
  		 this.is_id=this.$route.query.addr_id;
- 		 this.addr=this.$route.query.addr;
- 		 this.address_text=this.$route.query.addr_info;
+
     },
     methods: {
      onMyAddressChange(picker, values) {
@@ -131,9 +127,11 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
       	this.address_window=!this.address_window;
       },
       city(){
-      	this.oddr=!this.oddr;
       	this.address_window=!this.address_window;
       },
+      black_go(){
+	  		this.$router.push({path:'/wawa_change_address'});
+	  },
       text_btn(){
       	var _self=this;
       	if(this.oname==""||this.oname==null){
@@ -172,16 +170,17 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 	            }, _self.times);
 	  			return false;
       	}
-      	set_address_btn(this.oname,this.phone,this.myAddressProvince,this.myAddressCity,this.myAddresscounty,this.address_text,this.is_id).then(res => {   //编辑收件地址
+      	this.oaddr=this.myAddressProvince+this.myAddressCity+this.myAddresscounty;
+      	add_address_list(this.oname,this.phone,this.oaddr,this.address_text).then(res => {   //新增收件地址
 			  console.log(res);
 	          if (res.code == 1) {
-	             window.history.go(-1);
+	            	this.$router.push({path:'/wawa_change_address'});
 	          } else {
-	             console.log(err)
+	            console.log(err)
 	          }
 	        });
-//    	this.$post('api/addr/api',{      //     编辑收件地址
-//			api_name:'addr_update',
+//    	this.$post('api/addr/api',{      //      新增收件地址
+//			api_name:'addr_add',
 //			token:this.user_id,
 //			username:this.oname,
 //			mobile:this.phone,
@@ -204,6 +203,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
         //因为我没有看过源码（我猜测是因为数据没有改变，不会触发更新）
       });
       	var oline_top=document.querySelector(".open .open_box .line_top");
+      	console.log(oline_top)
       	var oline_bottom=document.querySelector(".open .open_box .line_bottom");
       	var obox=document.querySelector(".picker");
       	var oleft=document.querySelector(".picker-items .slot1");
@@ -219,6 +219,9 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
         oright.style.cssText="position:absolute;top:0;width:31%;left:66%;text-align: center;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
         oslot2.style.cssText="position:absolute;top:78px;left:32%;display:inline-block;"
         oslot4.style.cssText="position:absolute;top:78px;left:63%;display:inline-block;"
+    },
+    updated(){
+
     }
   }
 
@@ -226,11 +229,6 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 
 <style lang="scss" scoped>
   @import '../../style/mixin';
-	/*.picker-slot{
-		display:inline-block;
-		width:100px;
-		vertical-align:top;
-	}*/
 	section{
 		/*padding:0 10px;*/
 		/*margin-top:40px;*/
@@ -239,13 +237,13 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 	}
 	li{
 		/*font-size:16px;*/
+    @include font-dpr(16px);
 		border-bottom:1px dashed #eee;
 		/*height:50px;*/
 		/*line-height:50px;*/
-		position:relative;
     @include px2rem(height,100);
     @include px2rem(line-height,100);
-    @include font-dpr(16px);
+		position:relative;
 	}
 	li p,li div{
 		display:inline-block;
@@ -275,16 +273,16 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
     margin: 50px 8%;
     background: #86D8FE;
     /*height: 50px;*/
+    @include px2rem(height,100);
     text-align: center;
     /*line-height: 50px;*/
+    @include px2rem(line-height,100);
     color: #fff;
     /*font-size: 18px;*/
+    @include font-dpr(18px);
     letter-spacing: 2px;
     border-radius: 30px;
-    @include font-dpr(18px);
-    @include px2rem(height,100);
-    @include px2rem(line-height,100);
-  }
+	}
 	.open{
 		position: fixed;
 		width:100%;
@@ -292,7 +290,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 		background:rgba(0,0,0,0.5);
 		top:0;
 		left:0;
-		z-index:999;
+		z-index: 999;
 	}
 	.open .open_box{
 		width: 80%;
@@ -301,7 +299,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 	    position: absolute;
 	    top: 50%;
 	    left: 10%;
-	    /*margin-top: -150px;*/
+    /* margin-top: -150px;*/
 	    border-radius: 8px;
 	    /*padding: 0 10px;*/
     box-sizing: border-box;
@@ -333,6 +331,7 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
     @include px2rem(height,100);
     @include px2rem(line-height,100);
     @include font-dpr(18px);
+
 	}
 	.open .open_box .picker{
 		/*height: 185px;*/
@@ -356,6 +355,8 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 	.windon_show{
 		width:40%;
 		/*height:50px;*/
+    @include px2rem(height,100);
+    @include px2rem(line-height,100);
 		border-radius:10px;
 		background:rgba(0,0,0,0.8);
 		position:fixed;
@@ -366,7 +367,35 @@ import myaddress from 'assets/js/address3.json'     //引入省市区数据
 		/*line-height: 50px;*/
 		z-index:9999;
 		opacity:1;
-    @include px2rem(height,100);
-    @include px2rem(line-height,100);
 	}
+	/*.open .open_box p.line_top,.open .open_box p.line_bottom{
+		position:absolute;
+		width:100%;
+		height:1px;
+		border-top:1px solid #86D8FE;
+		left:0;
+	}
+	.line_top{
+		top:122px;
+	}
+	.line_bottom{
+		top:160px;
+	}*/
+	/*.picker-items{
+		position:relative;
+	}
+	.picker-items .slot1,.picker-items .slot2,.picker-items .slot3{
+		position:absolute;
+		top:0;
+		width:29%;
+	}
+	.picker-items .slot1{
+		left:0;
+	}
+	.picker-items .slot2{
+		left:29%;
+	}
+	.picker-items .slot3{
+		left:59%;
+	}*/
 </style>

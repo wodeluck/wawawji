@@ -106,8 +106,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="window_show" v-show="name_null">兑换成功</div>
+		<!--<div class="window_show">兑换成功</div>-->
 		<div class="btn" @click="btn_gift">立即兑换</div>
+		<div class="window_success" v-show="name_null">
+			<img :src="require('assets/img/del_hidden.png')" class="window_success_del" @click="success_del">
+			<div>
+				<img :src="require('assets/img/gift_success.png')">
+				<span>兑换成功</span>
+			</div>
+		</div>
+		
 	</div>
 </template>
 
@@ -410,6 +418,15 @@
       });
    	 }
    },
+   success_del(){
+   	 var _self=this;
+		  			window.setTimeout(function(){
+		              _self.name_null=!_self.name_null;
+		            }, _self.time);
+		            window.setTimeout(function(){
+		              _self.name_null=!_self.name_null;
+		            }, _self.times);
+   },
    del_wawa(){
 		this.change_coin=!this.change_coin;
 	},
@@ -423,7 +440,7 @@
    	    this.$router.push({path:'/home'});                                       //  跳转去抓娃娃
    },
    black_go(){
-	  	this.$router.push({path:'/exchange_gift'});
+	  	this.$router.go(-1);
 	 }
   }
 }
@@ -658,7 +675,7 @@
 	    height:  100%;
 	    top: 0;
 	    left:  0;
-	    z-index:  999;
+	    z-index:  99;
     }
     .wawa_window .window_box .window_box_header{
     	border-bottom: 1px solid #ccc;
@@ -822,5 +839,33 @@
     font-size: 18px;
     line-height: 100px;
     height: 260px;
+   }
+   .window_success{
+   	position: fixed;
+   	width:100%;
+   	height:100%;
+   	background:rgba(0,0,0,0.5);
+   	z-index:999;
+   	top:0;
+   	left:0;
+   }
+   .window_success .window_success_del{
+   		width: 35px;
+	    position: absolute;
+	    top: 30px;
+	    right: 40px;
+   }
+   .window_success div{
+   	  position: absolute;
+	    top: 100px;
+	    width: 100%;
+	    text-align: center;
+   }
+   .window_success div img{
+   	width:100%;
+   }
+   .window_success div span{
+   	font-size: 18px;
+    color: #fff;
    }
 </style>

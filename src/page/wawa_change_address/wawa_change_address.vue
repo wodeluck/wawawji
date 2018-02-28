@@ -64,15 +64,16 @@ export default {
   	  		wawa_change_address_gift(this.$route.query.id,this.address_id,this.otext).then(res => {   //礼品邮寄
 			  console.log(res);
 	          if (res.code == 1){
-	          		this.btn_show=!this.btn_show;
-	            	var _self=this;
-		  			window.setTimeout(function(){
-		              _self.mail_null=!_self.mail_null;
-		            }, _self.time);
-		            window.setTimeout(function(){
-		              _self.mail_null=!_self.mail_null;
-		            }, _self.times);
+//	          		this.btn_show=!this.btn_show;
+//	            	var _self=this;
+//		  			window.setTimeout(function(){
+//		              _self.mail_null=!_self.mail_null;
+//		            }, _self.time);
+//		            window.setTimeout(function(){
+//		              _self.mail_null=!_self.mail_null;
+//		            }, _self.times);
 		            this.otext="";
+					this.$router.push({path:'/my_wawa'});
 	          } else {
 	            var _self=this;
 		  			window.setTimeout(function(){
@@ -89,7 +90,7 @@ export default {
 	  		this.$router.push({path:'/my_wawa'});
 	  },
 	  add(){
-  	  	this.$router.push({path:'/add_address'});
+  	  	this.$router.push({path:'/add_add_address'});
   	  }
   }
 }

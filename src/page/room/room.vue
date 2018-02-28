@@ -624,7 +624,6 @@
         sendObj.top_time = this.top_time;
         sendObj.mactype = this.mactype;
         sendObj.sign = this.sign;
-        console.log(JSON.stringify(sendObj));
         const ws = this.webSocket;
         ws.send(JSON.stringify(sendObj));
         if(this.type=='grab'){

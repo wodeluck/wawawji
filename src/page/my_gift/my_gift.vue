@@ -56,7 +56,7 @@
 	                			<div class="list_bottom">
 	                				<h3>{{item.name}}</h3>
 	                				<p>{{item.ctime}}
-	                				   <input type="checkbox" @change="all_data(item,index,$event)" v-model="item.checked" v-if="item.type==1||item.type==2"/>
+	                				   <input type="checkbox" @change="all_data(item,index,$event)" v-model="item.checked" v-if="item.type==1"/>
 	                				</p>	                				
 	                			</div>
 	                		</li>
@@ -443,7 +443,7 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
         tabCardCollection[tabIndex].style.display = "block";  
     },
     change(){
-    	this.$router.push({path:'/exchange_gift'});
+    	this.$router.push({path:'/exchange_gift_two'});
     },
 //  list(onu,olist){
 //  	if(item.checked==undefined||item.checked==false){
@@ -786,7 +786,7 @@ my_gift_data_three(this.page).then(res => {   //我的礼品列表  已发货
     	font-size:16px;
     }
     .cards .tab-card ul li .list_bottom p{
-    	font-size:13px;
+    	font-size:12px;
     	color:#333333d6;
     }
     .cards .tab-card ul li .list_bottom p input{

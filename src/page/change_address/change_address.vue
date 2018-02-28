@@ -73,6 +73,7 @@ export default {
 		              _self.mail_null=!_self.mail_null;
 		            }, _self.times);
 		            this.otext="";
+		            this.$router.push({path:'/my_gift'});
 	          } else {
 	            var _self=this;
 		  			window.setTimeout(function(){

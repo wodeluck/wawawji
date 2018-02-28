@@ -183,7 +183,7 @@ import {exchange_gift_data,exchange_gift_change,exchange_gift_change_zero,exchan
   },
   methods:{
 	black_go(){
-	  	this.$router.push({path:'/my_wawa'});
+	  	this.$router.push({path:'/my_gift'});
 	  },
   	record(){
   		this.$router.push({path:'/exchange_record'});

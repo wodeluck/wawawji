@@ -201,7 +201,7 @@ ponson().then(res => {   //我的娃娃上面个人信息接口
   		this.$router.push({path:'/feedback'});
   	},
   	address(){
-  		this.$router.push({path:'/address'});
+  		this.$router.push({path:'/none_pic_address'});
   	},
   	set(){
   		this.$router.push({path:'/set'});

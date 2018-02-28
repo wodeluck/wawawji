@@ -29,7 +29,6 @@
 		</section>
 	</div>
 </template>
-
 <script>
 import {exchange_record_data} from '../../service/getData';
 export default {
